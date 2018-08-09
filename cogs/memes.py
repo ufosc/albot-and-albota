@@ -8,22 +8,20 @@ class Memes:
         self.bot = bot
     
     @commands.command()
-    async def orange(self):
+    async def orange(self, ctx):
         '''Responds to the classic football chant "Orange" "Blue"'''
-        await self.bot.say("BLUE!")
+        await ctx.send("BLUE!")
     
     @commands.command()
-    async def blue(self):
+    async def blue(self, ctx):
         '''Responds to the classic football chant "Orange" "Blue"'''
-        await self.bot.say("ORANGE!")
+        await ctx.send("ORANGE!")
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def about(self, ctx):
         '''Prints information about the bots.'''
-        await self.bot.say("We are your benevolent dictators. Fear us.")
-        with open('alligator.jpg', 'rb') as f:
-            await self.bot.send_file(ctx.message.channel, f)
-
+        await ctx.send("We are your benevolent dictators. Fear us.")
+        await ctx.send(file=discord.File('alligator.jpg'))
 
 def setup(bot):
     bot.add_cog(Memes(bot))
