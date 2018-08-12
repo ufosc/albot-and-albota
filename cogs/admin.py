@@ -1,12 +1,15 @@
 import discord
 from discord.ext import commands
 
+import cogs.util
+
 class Admin:
 
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(hidden=True)
+    @commands.check(cogs.util.is_officer_check)
     async def load(self, ctx, extension_name : str):
         '''Loads an extension.'''
         try:
@@ -20,6 +23,7 @@ class Admin:
         await ctx.send("{} loaded.".format(extension_name))
 
     @commands.command(hidden=True)
+    @commands.check(cogs.util.is_officer_check)
     async def unload(self, ctx, extension_name : str):
         """Unloads an extension."""
         if extension_name.startswith("cogs."):
@@ -29,6 +33,7 @@ class Admin:
         await ctx.send("{} unloaded.".format(extension_name))
 
     @commands.command(hidden=True)
+    @commands.check(cogs.util.is_officer_check)
     async def reload(self, ctx, extension_name : str):
         '''Unloads and then loads an extension'''
         try:
