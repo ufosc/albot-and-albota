@@ -8,10 +8,11 @@ startup_cogs = [
     "cogs.helloworld",
     "cogs.memes",
     "cogs.projects",
-    "cogs.admin"
+    "cogs.admin",
+    "cogs.music"
 ]
 
-bot = commands.Bot(command_prefix="!", description="ALBot (A Lame Bot)", case_insensitive=True)
+bot = commands.Bot(command_prefix="!", description="ALBot (A Lame Bot)", case_insensitive=True, command_not_found="Invalid command: {}")
 
 @bot.event
 async def on_ready():
