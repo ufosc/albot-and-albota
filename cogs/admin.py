@@ -1,5 +1,9 @@
+import textwrap
 import discord
 from discord.ext import commands
+
+from contextlib import redirect_stdout
+import io
 
 import cogs.util
 
@@ -47,6 +51,46 @@ class Admin:
             await ctx.send("```py\n{}: {}\n```".format(type(e).__name__, str(e)))
             return
         await ctx.send("{} reloaded.".format(extension_name))
+
+    @commands.command(hidden=True)
+    @commands.check(cogs.util.is_officer_check)
+    async def whereami(self, ctx):
+        await ctx.send("You are in {} with id {}".format(ctx.channel.name, ctx.channel.id))
+    
+    @commands.command(hidden=True, name="eval")
+    @commands.check(cogs.util.is_owner)
+    async def admin_eval(self, ctx, *, cmd : str):
+        '''Evaluates Python code only if the executor is hjarrell'''
+        env = {
+            'bot': self.bot,
+            'discord': discord,
+            'commands': commands,
+            'ctx': ctx
+        }
+
+        stdout = io.StringIO()
+
+        indented_body = textwrap.indent(cmd, "    ")
+
+        cmd_body = "async def __admin_eval():\n{}".format(indented_body)
+        try:
+            exec(cmd_body, env)
+        except Exception as e:
+            return await ctx.send("```py\n{0.__class__.__name__}: {0}\n```", e)
+        
+        try:
+            with redirect_stdout(stdout):
+                ret = await eval("__admin_eval()", env)
+        except Exception as e:
+            value = stdout.getvalue()
+            await ctx.send("```py\n{value}{e}\n```".format())
+        else:
+            value = stdout.getvalue()
+            if ret is None:
+                if value:
+                    await ctx.send("```py\n{}\n```".format(value))
+            else:
+                await ctx.send("```py\n{}{}\n```".format(value, ret))
 
 def setup(bot):
     bot.add_cog(Admin(bot))
