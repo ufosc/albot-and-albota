@@ -42,6 +42,11 @@ class Memes:
     async def setplaying(self, ctx, *, playing: str):
         '''Lets an officer set the playing text'''
         await self.bot.change_presence(activity=discord.Game(name=playing))
+    
+    @commands.command()
+    async def say(self, ctx, *, phrase : str):
+        '''Has the bot say something'''
+        await ctx.send(phrase)
 
 def setup(bot):
     bot.add_cog(Memes(bot))
