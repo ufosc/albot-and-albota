@@ -3,10 +3,13 @@ from discord.ext import commands
 import requests
 import json
 
+import cogs.util
+
 class Compile:
     def __init__(self, bot):
         self.bot = bot
         self.complangs = []
+        self.is_debug = False
 
     @commands.command(name="complangs")
     async def compile_langs(self, ctx):
@@ -31,10 +34,18 @@ class Compile:
 
         response = r.json()
         if r.status_code == 201:
-            response = response['stdout']
+            if not self.is_debug:
+                response = response['stdout']
             await ctx.send("Program ran sucessfully with output:\n\n```\n{}\n```".format(json.dumps(response, sort_keys=True, indent=4)))
         else:
             await ctx.send("Program failed with output:\n\n```json\n{}\n```".format(json.dumps(response, sort_keys=True, indent=4)))
+
+    @commands.command(name="compdebug")
+    @commands.check(cogs.util.is_officer_check)
+    async def debug_compile(self, ctx):
+        '''Toggles whether to print the full compile output'''
+        self.is_debug = not self.is_debug
+        await ctx.send("is_debugging = {}".format(self.is_debug))
 
 def setup(bot):
     bot.add_cog(Compile(bot))
