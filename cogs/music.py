@@ -148,7 +148,7 @@ class Music:
         try:
             ydl = youtube_dl.YoutubeDL(opts)
             info = ydl.extract_info(song, download=False)
-            
+
             if not info:
                 raise Exception("Error extracting")
 

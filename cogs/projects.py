@@ -7,7 +7,7 @@ class Projects:
 
     def __init__(self, bot):
         self.bot = bot
-    
+
     async def muddy(self, ctx):
         """Add the muddy swamp role to the user"""
         role = discord.utils.get(ctx.guild.roles, name="muddy-swamp")
@@ -47,7 +47,7 @@ class Projects:
         embed=discord.Embed(title="Marston Vs West", url="https://github.com/ufosc/marston-vs-west", description="A HTML5 smashbros-esque game fitting our libraries against each other.", color=0xff0036)
         embed.add_field(name="Join using", value="!join mvw", inline=True)
         await ctx.send(embed=embed)
-        
+
         embed=discord.Embed(title="Club Website", url="https://github.com/ufosc/club-website", description="Our club website made using basic HTML, CSS, and JS.", color=0x00ecff)
         embed.add_field(name="Join using", value="!join clubsite", inline=True)
         await ctx.send(embed=embed)

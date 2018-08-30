@@ -19,12 +19,12 @@ class Compile:
 
             for lang in langs.json():
                 self.complangs.append("{} | {}\n".format(lang['id'], lang['name']))
-        
+
         response_text = "ID | Name\n"
         for lang in self.complangs:
             response_text += lang
         await ctx.send(response_text)
-    
+
     @commands.command(name="compile")
     async def _compile(self, ctx, lang_id : int, *, program : str):
         '''Compiles and runs code using the judge0 api'''
