@@ -49,3 +49,7 @@ print('done') # The changes are rolled back, and your embarassing secrets are sa
 ```
 
 For more information, see the [SQLite3 library documentation](https://docs.python.org/3.6/library/sqlite3.html) (note that the SQLite3 Connection object is not the same as the backend's SQLConnection object; however, the SQLite3 library Connection object can be retrieved using the `raw` attribute of an SQLConnection object).
+
+## Adding new tables
+
+The backend uses the file `data/schema.json` to determine how the database should be structured. By modifying this file, the table structure can be modified. Note, however, that changes to the structure of existing tables will cause the backend to detect the database as corrupt (this does not happen when new tables are added - the backend will simply create the new tables to match the schema).
