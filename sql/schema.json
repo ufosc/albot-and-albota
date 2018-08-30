@@ -1,0 +1,19 @@
+[
+	{
+		"name" : "test_table",
+		"schema" : [
+			{
+				"name" : "message_id",
+				"type" : "BIGINT"
+			},
+			{
+				"name" : "track_time",
+				"type" : "TIMESTAMP"
+			},
+			{
+				"name" : "spanish_inquisition",
+				"type" : "TEXT"
+			}
+		]
+	}
+]
