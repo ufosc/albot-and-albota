@@ -2,13 +2,11 @@ import sqlite3
 import json
 
 class DatabaseInitializeError(BaseException):
-    """ Raised when the database can't be initialized properly
-    """
+    """ Raised when the database can't be initialized properly """
     pass
 
 class SQLRollback(BaseException):
-    """ Raise this exception to rollback an SQLCursor operation
-    """
+    """ Raise this exception to rollback an SQLCursor operation """
     pass
 
 class SQLCursor:
