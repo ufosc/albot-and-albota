@@ -32,7 +32,7 @@ class ALBotMessageHandlers:
 
 async def track(message, author=None):
     """ Marks a message in the database so that it will be automatically
-      " deleted if the sender or an admin reacts with the 'trash' emoji
+        deleted if the sender or an admin reacts with the 'trash' emoji
     """
     await message.add_reaction('\U0001F6AE')
     sql_db = SQLConnection()

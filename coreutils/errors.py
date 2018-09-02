@@ -47,9 +47,10 @@ class ALBotErrorHandlers:
 
     async def on_command_error(self, ctx, error):
         """ Handle command errors
-          " Note that this uses the SQL database to store full backtrace
-          " messages, so that users can click a reaction button to
-          " expand the error message.
+
+        Note that this uses the SQL database to store full backtrace
+        messages, so that users can click a reaction button to
+        expand the error message.
         """
         if type(error) == discord.ext.commands.MissingPermissions:
             """ Use a separate embed for "insufficient permissions" errors """
