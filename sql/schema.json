@@ -1,19 +1,52 @@
 [
 	{
-		"name" : "test_table",
+		"name" : "tracked_messages",
 		"schema" : [
 			{
-				"name" : "message_id",
+				"name" : "messid",
+				"type" : "BIGINT"
+			},
+			{
+				"name" : "sender_uid",
 				"type" : "BIGINT"
 			},
 			{
 				"name" : "track_time",
 				"type" : "TIMESTAMP"
-			},
-			{
-				"name" : "spanish_inquisition",
-				"type" : "TEXT"
 			}
+		]
+	},
+	{
+		"name" : "error_messages",
+		"schema" : [
+				{
+					"name" : "message_id",
+					"type" : "BIGINT"
+				},
+				{
+					"name" : "channel_id",
+					"type" : "BIGINT"
+				},
+				{
+					"name" : "command_name",
+					"type" : "TEXT"
+				},
+				{
+					"name" : "error_name",
+					"type" : "TEXT"
+				},
+				{
+					"name" : "error_text",
+					"type" : "TEXT"
+				},
+				{
+					"name" : "full_backtrace",
+					"type" : "TEXT"
+				},
+				{
+					"name" : "full_command_string",
+					"type" : "TEXT"
+				}
 		]
 	}
 ]
