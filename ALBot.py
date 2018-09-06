@@ -10,7 +10,8 @@ startup_cogs = [
     "cogs.projects",
     "cogs.admin",
     "cogs.music",
-    "cogs.compile"
+    "cogs.compile",
+    "cogs.welcome"
 ]
 
 bot = commands.Bot(command_prefix="!", description="ALBot (A Lame Bot)", case_insensitive=True, command_not_found="Invalid command: {}")
