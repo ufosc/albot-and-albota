@@ -20,7 +20,6 @@ startup_cogs = [
 bot_url = 'https://discordapp.com/api/oauth2/authorize?client_id={0}&scope=bot&permissions=0'
 
 bot = commands.Bot(command_prefix="!", description="ALBot (A Lame Bot)", case_insensitive=True, command_not_found="Invalid command: {}")
-bot.embed_colour = 0x00529b # make a universal color available for use in embeds
 
 @bot.event
 async def on_ready():
