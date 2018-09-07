@@ -1,0 +1,52 @@
+[
+	{
+		"table_name" : "tracked_messages",
+		"schema" : [
+			{
+				"column_name" : "messid",
+				"type" : "BIGINT"
+			},
+			{
+				"column_name" : "sender_uid",
+				"type" : "BIGINT"
+			},
+			{
+				"column_name" : "track_time",
+				"type" : "TIMESTAMP"
+			}
+		]
+	},
+	{
+		"table_name" : "error_messages",
+		"schema" : [
+				{
+					"column_name" : "message_id",
+					"type" : "BIGINT"
+				},
+				{
+					"column_name" : "channel_id",
+					"type" : "BIGINT"
+				},
+				{
+					"column_name" : "command_name",
+					"type" : "TEXT"
+				},
+				{
+					"column_name" : "error_name",
+					"type" : "TEXT"
+				},
+				{
+					"column_name" : "error_text",
+					"type" : "TEXT"
+				},
+				{
+					"column_name" : "full_backtrace",
+					"type" : "TEXT"
+				},
+				{
+					"column_name" : "full_command_string",
+					"type" : "TEXT"
+				}
+		]
+	}
+]
