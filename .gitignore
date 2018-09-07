@@ -2,4 +2,4 @@
 __pycache__/
 *.jpg
 config.py
-data/sqlite3.db
+database/data/sqlite3.db

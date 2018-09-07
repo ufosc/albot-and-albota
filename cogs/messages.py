@@ -1,9 +1,10 @@
 import discord
 from discord.ext import commands
 
-from sql.sql import SQLCursor, SQLConnection
+import cogs.CONSTANTS as CONSTANTS
+from database.database import SQLCursor, SQLConnection
 
-class ALBotMessageHandlers:
+class ALBotMessageDeletionHandlers:
     """ Functions for handling tracked messages """
     def __init__(self, bot, db):
         self.bot = bot
@@ -13,7 +14,7 @@ class ALBotMessageHandlers:
         """ Checks reactions and deletes tracked messages when necessary. """
         if payload.user_id == self.bot.user.id:
             return
-        if payload.emoji.name == '\U0001F6AE':
+        if payload.emoji.name == CONSTANTS.REACTION_DELETE:
             is_tracked = False
             sender_uid = None
             with SQLCursor(self.db) as cur:
@@ -34,7 +35,7 @@ async def track(message, author=None):
     """ Marks a message in the database so that it will be automatically
         deleted if the sender or an admin reacts with the 'trash' emoji
     """
-    await message.add_reaction('\U0001F6AE')
+    await message.add_reaction(CONSTANTS.REACTION_DELETE)
     sql_db = SQLConnection()
     aid = 0
     if author:
@@ -44,4 +45,4 @@ async def track(message, author=None):
 
 
 def setup(bot):
-    bot.add_cog(ALBotMessageHandlers(bot, SQLConnection()))
+    bot.add_cog(ALBotMessageDeletionHandlers(bot, SQLConnection()))

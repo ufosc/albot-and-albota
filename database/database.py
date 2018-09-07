@@ -56,8 +56,8 @@ class SQLConnection:
             values.
         """
         self.table_prefix = ''
-        self.raw = sqlite3.connect('data/sqlite3.db')
-        with open('sql/schema.json') as schema_file:
+        self.raw = sqlite3.connect('database/data/sqlite3.db')
+        with open('database/schema.json') as schema_file:
             self.schema = json.load(schema_file)
 
         table_status = self.table_check()
@@ -113,7 +113,7 @@ class SQLConnection:
             res_fixed.append(result[0])
 
         for table in schema:
-            tname = table_prefix + table['name']
+            tname = table_prefix + table['table_name']
             if tname in res_fixed:
                 database_empty = False
                 with SQLCursor(self) as cur:
@@ -133,7 +133,7 @@ class SQLConnection:
                 for column in res:
                     match = False
                     for col_descriptor in table['schema']:
-                        if col_descriptor['name'] == column[0]:
+                        if col_descriptor['column_name'] == column[0]:
                             if col_descriptor['type'].lower() == column[1].lower():
                                 match = True
                                 break
@@ -187,7 +187,7 @@ class SQLConnection:
                 table_list.append(table[0])
 
             for table in self.schema:
-                tname = self.table_prefix + table['name']
+                tname = self.table_prefix + table['table_name']
                 if tname in table_list:
                     continue # ignore tables which already exist
                 else:
@@ -195,7 +195,7 @@ class SQLConnection:
                     for index, column in enumerate(table['schema']):
                         if index != 0:
                             cmd = cmd + ', '
-                        cmd = cmd + column['name'] + ' ' + column['type']
+                        cmd = cmd + column['column_name'] + ' ' + column['type']
                         if 'primary' in column: # columns with primary:true are PRIMARY KEY columns
                             if column['primary']:
                                 cmd = cmd + ' PRIMARY KEY'
