@@ -16,5 +16,13 @@ class HelloWorld:
                 with open("cogs/helloworld/{}".format(fName), 'r') as f:
                     await ctx.send(f.read())
 
+    @commands.command()
+    async def hellolangs(self, ctx):
+        '''Prints all the languages that there are helloworld's for'''
+        langs = ''
+        for fName in os.listdir("cogs/helloworld"):
+            langs += fName.replace('.txt','') + '\n'
+        await ctx.send(langs)
+
 def setup(bot):
     bot.add_cog(HelloWorld(bot))
