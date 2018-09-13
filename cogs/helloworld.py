@@ -12,7 +12,7 @@ class HelloWorld:
     async def hello(self, ctx, lang : str):
         '''Prints the hello world source for any language defined in cogs/helloworld'''
         for fName in os.listdir("cogs/helloworld"):
-            if fName.startswith(lang.lower()):
+            if fName == (lang.lower() + ".txt"):
                 with open("cogs/helloworld/{}".format(fName), 'r') as f:
                     await ctx.send(f.read())
 
