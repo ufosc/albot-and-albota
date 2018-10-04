@@ -1,0 +1,3 @@
+```haskell
+putStrLn "Hello, World!"
+```

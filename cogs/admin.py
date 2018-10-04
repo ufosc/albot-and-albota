@@ -56,7 +56,7 @@ class Admin:
     @commands.check(cogs.util.is_officer_check)
     async def whereami(self, ctx):
         await ctx.send("You are in {} with id {}".format(ctx.channel.name, ctx.channel.id))
-    
+
     @commands.command(hidden=True, name="eval")
     @commands.check(cogs.util.is_owner)
     async def admin_eval(self, ctx, *, cmd : str):
@@ -77,7 +77,7 @@ class Admin:
             exec(cmd_body, env)
         except Exception as e:
             return await ctx.send("```py\n{0.__class__.__name__}: {0}\n```", e)
-        
+
         try:
             with redirect_stdout(stdout):
                 ret = await eval("__admin_eval()", env)
