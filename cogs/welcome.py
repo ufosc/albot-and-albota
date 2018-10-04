@@ -10,10 +10,12 @@ class Welcome:
         self.bot = bot
 
     async def on_member_join(self, member):
-        fmt = '''Welcome {0.mention}! \nFeel free to use \"!question\" to let us know if you have any questions \nAnd you can also use \"!help\" to find out about what you can do with our Discord bot ALBot :D '''
-        general_channel = get(member.guild.channels, id=436912671137333260) #this id refers to our general text channel
-        if general_channel != None:
-            await general_channel.send(fmt.format(member))
+        fmt = '''Welcome {0.mention}! \nFeel free to use \"!question\" to let us know if you have any questions \nAnd you can also use \"!help\", all in the #bot-spam channel to find out about what you can do with our Discord bot ALBot :D '''
+        dm_channel = member.dm_channel
+        if dm_channel == None:
+            await member.create_dm()
+        dm_channel = member.dm_channel
+        await dm_channel.send(fmt.format(member))
 
 def setup(bot):
     bot.add_cog(Welcome(bot))
