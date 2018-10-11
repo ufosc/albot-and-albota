@@ -7,14 +7,14 @@ class Help:
     def __init__(self, bot):
         self.bot = bot
     
-    '''
-    Formats:
-    !question
-    !question "[question to be answered]"
-    '''
+    
     @commands.command()
-    async def question(self, ctx, q:str = ""):
-        '''Forward a question to the officer chat'''
+    async def question(self, ctx, *, q : str = ""):
+        ''' Forward a question to the officer chat
+            Formats:
+            !question
+            !question [question to be answered]
+        '''
         member_name = ctx.message.author.name
         channel = self.bot.get_channel(436916990238785556)
         await channel.send("@everyone\n @"+member_name+" has a question!")
