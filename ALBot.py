@@ -15,7 +15,8 @@ startup_cogs = [
     "cogs.admin",
     "cogs.music",
     "cogs.compile",
-    "cogs.welcome"
+    "cogs.welcome",
+    "cogs.help"
 ]
 
 bot_url = 'https://discordapp.com/api/oauth2/authorize?client_id={0}&scope=bot&permissions=0'
