@@ -16,7 +16,8 @@ startup_cogs = [
     "cogs.music",
     "cogs.compile",
     "cogs.welcome",
-    "cogs.help"
+    "cogs.help",
+    "cogs.reminder"
 ]
 
 bot_url = 'https://discordapp.com/api/oauth2/authorize?client_id={0}&scope=bot&permissions=0'
@@ -39,5 +40,5 @@ if __name__ == "__main__":
         except Exception as e:
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extension {}\n{}'.format(extension, exc))
-
+            
 bot.run(config.ALBOT_TOKEN)
