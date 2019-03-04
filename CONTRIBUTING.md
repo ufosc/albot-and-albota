@@ -127,15 +127,17 @@ Then create the minimal cog as follows:
 import discord
 from discord.ext import commands
 
-class Wow:
+class Wow(commands.Cog, name="Your Cog Name Wow"):
     def __init__(self, bot):
         self.bot = bot
 
 def setup(bot):
     bot.add_cog(Wow(bot))
+    
 ```
 
 Here you can define your commands following the instructions from the previous section.
+If you are defining a listener, you _must_ add the `commands.Cog.listener()` decorator.
 Last you can add your cog to the bot by appending "cogs.your_cog" to the list, `startup_cogs` found in `ALBot.py`.
 
 ## Closing

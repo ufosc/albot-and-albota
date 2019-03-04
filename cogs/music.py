@@ -9,7 +9,7 @@ from discord.ext import commands
 import asyncio
 import youtube_dl
 
-class VoiceEntry:
+class VoiceEntry(commands.Cog, name="Voice Entry"):
     '''A class that represents a song that can be played'''
     def __init__(self, message, player, title, uploader, duration):
         self.requester = message.author

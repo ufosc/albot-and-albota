@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import os
 
-class HelloWorld:
+class HelloWorld(commands.Cog, name = "Hello World"):
     '''Discord.py Cog for printing the hello world code for different languages'''
 
     def __init__(self, bot):

@@ -4,7 +4,7 @@ from discord.ext import commands
 
 import cogs.util
 
-class Memes:
+class Memes(commands.Cog, name = "Memes"):
     '''All meme related commands'''
 
     def __init__(self, bot):

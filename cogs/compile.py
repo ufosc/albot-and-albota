@@ -5,7 +5,7 @@ import json
 
 import cogs.util
 
-class Compile:
+class Compile(commands.Cog, name="Compile"):
     def __init__(self, bot):
         self.bot = bot
         self.complangs = []

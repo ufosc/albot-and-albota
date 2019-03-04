@@ -2,7 +2,7 @@ import discord
 from discord.utils import get
 from discord.ext import commands
 
-class Projects:
+class Projects(commands.Cog, name="Projects"):
     '''Commands dealing with the different projects we are working on'''
 
     def __init__(self, bot):
