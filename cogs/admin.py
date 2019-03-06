@@ -8,7 +8,7 @@ import io
 import cogs.util
 
 
-class Admin(commands.Cog, name="Admin"):
+class Admin(commands.Cog, name='Admin'):
 
     def __init__(self, bot):
         self.bot = bot

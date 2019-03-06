@@ -4,7 +4,8 @@ from discord.ext import commands
 
 import cogs.util
 
-class Memes(commands.Cog, name = "Memes"):
+
+class Memes(commands.Cog, name='Memes'):
     '''All meme related commands'''
 
     def __init__(self, bot):
@@ -44,13 +45,14 @@ class Memes(commands.Cog, name = "Memes"):
         await self.bot.change_presence(activity=discord.Game(name=playing))
 
     @commands.command()
-    async def say(self, ctx, *, phrase : str):
+    async def say(self, ctx, *, phrase: str):
         '''Has the bot say something'''
         await ctx.send(phrase)
 
     async def on_guild_channel_create(self, channel):
         '''Messages "First" when a channel is created'''
         await channel.send('First')
+
 
 def setup(bot):
     bot.add_cog(Memes(bot))
