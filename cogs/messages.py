@@ -11,6 +11,31 @@ class ALBotMessageDeletionHandlers(commands.Cog, name='Message Deletion Handlers
         self.db = db
 
     @commands.Cog.listener()
+    async def on_message(self, msg):
+        """Checks message for factorial format using regex."""
+        if msg.author != self.bot.user:
+            import re
+            filtered_msg = re.findall('{(?:[0-9]|[1-8](?:[0-9]{1,2})?)!}',
+                                      msg.content)
+            if filtered_msg is not None:
+                group_len = len(filtered_msg)
+                print('Groups: ' + str(group_len))
+                factorial = 'Factorial: `{}! = {}`' if group_len == 1 else 'The following factorials were calculated as:```'
+                import math
+                if group_len > 1:
+                    for i in range(0, group_len):
+                        num = int((filtered_msg[i].split('!')[0])[1:])
+                        product = math.factorial(num)
+                        factorial += '\n\n{}! = {}'.format(num, product)
+                    await msg.channel.send(factorial + '```')
+                elif group_len == 1:
+                    num = int((filtered_msg[0].split('!')[0])[1:])
+                    await msg.channel.send(
+                        factorial.format(num, math.factorial(num)))
+
+        await self.bot.process_commands(msg)
+
+    @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
         """ Checks reactions and deletes tracked messages when necessary. """
         if payload.user_id == self.bot.user.id:
