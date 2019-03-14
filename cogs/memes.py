@@ -4,7 +4,11 @@ from discord.ext import commands
 
 import cogs.util
 
+<<<<<<< HEAD
 class Memes:
+=======
+class Memes(commands.Cog, name = "Memes"):
+>>>>>>> parent of 1e08d60... Fixed cog inheritance and added factorial support.
     '''All meme related commands'''
 
     def __init__(self, bot):
@@ -48,5 +52,12 @@ class Memes:
         '''Has the bot say something'''
         await ctx.send(phrase)
 
+<<<<<<< HEAD
+=======
+    async def on_guild_channel_create(self, channel):
+        '''Messages "First" when a channel is created'''
+        await channel.send('First')
+
+>>>>>>> parent of 1e08d60... Fixed cog inheritance and added factorial support.
 def setup(bot):
     bot.add_cog(Memes(bot))

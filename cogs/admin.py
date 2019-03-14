@@ -7,7 +7,12 @@ import io
 
 import cogs.util
 
+<<<<<<< HEAD
 class Admin:
+=======
+
+class Admin(commands.Cog, name="Admin"):
+>>>>>>> parent of 1e08d60... Fixed cog inheritance and added factorial support.
 
     def __init__(self, bot):
         self.bot = bot

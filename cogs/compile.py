@@ -5,7 +5,11 @@ import json
 
 import cogs.util
 
+<<<<<<< HEAD
 class Compile:
+=======
+class Compile(commands.Cog, name="Compile"):
+>>>>>>> parent of 1e08d60... Fixed cog inheritance and added factorial support.
     def __init__(self, bot):
         self.bot = bot
         self.complangs = []

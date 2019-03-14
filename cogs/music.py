@@ -9,7 +9,11 @@ from discord.ext import commands
 import asyncio
 import youtube_dl
 
+<<<<<<< HEAD
 class VoiceEntry:
+=======
+class VoiceEntry(commands.Cog, name="Voice Entry"):
+>>>>>>> parent of 1e08d60... Fixed cog inheritance and added factorial support.
     '''A class that represents a song that can be played'''
     def __init__(self, message, player, title, uploader, duration):
         self.requester = message.author

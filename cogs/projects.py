@@ -2,7 +2,11 @@ import discord
 from discord.utils import get
 from discord.ext import commands
 
+<<<<<<< HEAD
 class Projects:
+=======
+class Projects(commands.Cog, name="Projects"):
+>>>>>>> parent of 1e08d60... Fixed cog inheritance and added factorial support.
     '''Commands dealing with the different projects we are working on'''
 
     def __init__(self, bot):

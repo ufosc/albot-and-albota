@@ -9,7 +9,11 @@ import cogs.CONSTANTS as CONSTANTS
 from database.database import SQLCursor, SQLConnection
 from cogs.messages import track
 
+<<<<<<< HEAD
 class ALBotErrorHandlers:
+=======
+class ALBotErrorHandlers(commands.Cog, name = "Error Handler"):
+>>>>>>> parent of 1e08d60... Fixed cog inheritance and added factorial support.
     """ Handles errors """
 
     def __init__(self, bot, db):
@@ -69,7 +73,12 @@ class ALBotErrorHandlers:
                 bt_string = ''.join(traceback.format_exception(type(error), error, error.__traceback__))
                 print('{bname} encountered an error:\n{0}'.format(bt_string, bname=CONSTANTS.BOT_NAME))
                 cur.execute('INSERT INTO error_messages (message_id, channel_id, command_name, error_name, error_text, full_backtrace, full_command_string) VALUES (?,?,?,?,?,?,?);',(msg.id, msg.channel.id, ctx.command.name, str(type(error)), str(error), bt_string, ctx.message.content))
+<<<<<<< HEAD
     
+=======
+
+    @commands.Cog.listener()
+>>>>>>> parent of 1e08d60... Fixed cog inheritance and added factorial support.
     async def on_raw_reaction_add(self, payload):
         if payload.user_id == self.bot.user.id:
             return
@@ -84,7 +93,12 @@ class ALBotErrorHandlers:
             to_edit = await self.bot.get_channel(payload.channel_id).get_message(payload.message_id)
             new_embed = self._construct_error_embed(row[0],row[1],row[2],row[3],row[4])
             await to_edit.edit(content='{err} Command error {err}'.format(err=CONSTANTS.REACTION_ERROR),embed=new_embed)
+<<<<<<< HEAD
     
+=======
+
+    @commands.Cog.listener()
+>>>>>>> parent of 1e08d60... Fixed cog inheritance and added factorial support.
     async def on_raw_reaction_remove(self, payload):
         if payload.user_id == self.bot.user.id:
             return

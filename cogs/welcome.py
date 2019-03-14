@@ -3,7 +3,11 @@ from discord.utils import get
 from discord.ext import commands
 import config
 
+<<<<<<< HEAD
 class Welcome:
+=======
+class Welcome(commands.Cog, name="Welcome"):
+>>>>>>> parent of 1e08d60... Fixed cog inheritance and added factorial support.
     '''To automatically welcome new members to the server'''
 
     def __init__(self, bot):

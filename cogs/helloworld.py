@@ -2,7 +2,11 @@ import discord
 from discord.ext import commands
 import os
 
+<<<<<<< HEAD
 class HelloWorld:
+=======
+class HelloWorld(commands.Cog, name = "Hello World"):
+>>>>>>> parent of 1e08d60... Fixed cog inheritance and added factorial support.
     '''Discord.py Cog for printing the hello world code for different languages'''
 
     def __init__(self, bot):
