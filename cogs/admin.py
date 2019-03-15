@@ -7,12 +7,7 @@ import io
 
 import cogs.util
 
-<<<<<<< HEAD
-class Admin:
-=======
-
-class Admin(commands.Cog, name="Admin"):
->>>>>>> parent of 1e08d60... Fixed cog inheritance and added factorial support.
+class Admin(commands.Cog, name='Admin'):
 
     def __init__(self, bot):
         self.bot = bot
@@ -20,7 +15,7 @@ class Admin(commands.Cog, name="Admin"):
     @commands.command(hidden=True)
     @commands.check(cogs.util.is_officer_check)
     async def load(self, ctx, extension_name : str):
-        '''Loads an extension.'''
+        """Loads an extension."""
         try:
             if extension_name.startswith("cogs."):
                 self.bot.load_extension(extension_name)
@@ -44,7 +39,7 @@ class Admin(commands.Cog, name="Admin"):
     @commands.command(hidden=True)
     @commands.check(cogs.util.is_officer_check)
     async def reload(self, ctx, extension_name : str):
-        '''Unloads and then loads an extension'''
+        """Unloads and then loads an extension"""
         try:
             if extension_name.startswith("cogs."):
                 self.bot.unload_extension(extension_name)
@@ -65,7 +60,7 @@ class Admin(commands.Cog, name="Admin"):
     @commands.command(hidden=True, name="eval")
     @commands.check(cogs.util.is_owner)
     async def admin_eval(self, ctx, *, cmd : str):
-        '''Evaluates Python code only if the executor is hjarrell'''
+        """Evaluates Python code only if the executor is hjarrell"""
         env = {
             'bot': self.bot,
             'discord': discord,
@@ -88,7 +83,7 @@ class Admin(commands.Cog, name="Admin"):
                 ret = await eval("__admin_eval()", env)
         except Exception as e:
             value = stdout.getvalue()
-            await ctx.send("```py\n{value}{e}\n```".format())
+            await ctx.send("```py\n{}{}\n```".format(value, e))
         else:
             value = stdout.getvalue()
             if ret is None:

@@ -4,8 +4,8 @@ import datetime
 import asyncio
 from discord.ext import commands
 
-class Reminder:
-    '''To remind officers and members about things'''
+class Reminder(commands.Cog, name='Reminder'):
+    """To remind officers and members about things"""
     def __init__(self, bot):
         self.bot = bot
         self.book_room_bg_task = self.bot.loop.create_task(self.book_room_reminder())

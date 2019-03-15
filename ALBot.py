@@ -5,7 +5,7 @@ from discord.ext import commands
 import cogs.CONSTANTS as CONSTANTS
 import config
 
-'''Cogs to load when the bot first starts'''
+"""Cogs to load when the bot first starts"""
 startup_cogs = [
     "cogs.messages",
     "cogs.errors",

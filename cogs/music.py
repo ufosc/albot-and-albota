@@ -9,12 +9,9 @@ from discord.ext import commands
 import asyncio
 import youtube_dl
 
-<<<<<<< HEAD
 class VoiceEntry:
-=======
-class VoiceEntry(commands.Cog, name="Voice Entry"):
->>>>>>> parent of 1e08d60... Fixed cog inheritance and added factorial support.
-    '''A class that represents a song that can be played'''
+
+    """A class that represents a song that can be played"""
     def __init__(self, message, player, title, uploader, duration):
         self.requester = message.author
         self.channel = message.channel
@@ -30,7 +27,7 @@ class VoiceEntry(commands.Cog, name="Voice Entry"):
         return fmt.format(self.title, self.uploader, self.requester)
 
 class VoiceState:
-    '''Holds the queued song and players for a guild server'''
+    """Holds the queued song and players for a guild server"""
     def __init__(self, bot):
         self.current = None
         self.voice = None
@@ -69,7 +66,7 @@ class VoiceState:
             self.voice.play(self.current.player)
             await self.play_next_song.wait()
 
-class Music:
+class Music(commands.Cog, name='Music'):
     """Voice related commands.
     Works in multiple servers at once.
     """

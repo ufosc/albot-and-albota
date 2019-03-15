@@ -12,7 +12,7 @@ from sql.sql import SQLConnection, SQLCursor, SQLRollback
 
 connection = SQLConnection() # Checks the database integrity and returns a new connection object
 with SQLCursor(connection) as cursor: # The backend uses a context manager to wrap the cursor object
-	''' Get data from some_table '''
+	""" Get data from some_table """
 	cursor.execute('SELECT * FROM some_table;')
 	result = cursor.fetchall()
 
@@ -24,7 +24,7 @@ with SQLCursor(connection) as cursor: # The backend uses a context manager to wr
 some_message_id = 484572171608522771
 some_message_text = 'The Spanish Inquisition'
 with SQLCursor(connection) as cursor:
-	''' Insert values into some_table, sanitizing them to prevent naughty business. '''
+	""" Insert values into some_table, sanitizing them to prevent naughty business. """
 	cursor.execute('INSERT INTO some_table (message_id, message_text) VALUES (?,?);', (some_message_id, some_message_text))
 
 print('done') # Changes are automatically committed at the end of the 'with' statement.
@@ -37,7 +37,7 @@ some_message_text = 'My most embarassing secrets that I would never want in an S
 message_is_regretted = True
 
 with SQLCursor(connection) as cursor:
-	''' Insert a value, then roll it back '''
+	""" Insert a value, then roll it back """
 	cursor.execute('INSERT INTO some_table (message_id, message_text) VALUES (?, ?);', (some_message_id, some_message_text))
 
 	if message_is_regretted:
