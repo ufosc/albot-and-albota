@@ -69,11 +69,7 @@ class ALBotErrorHandlers(commands.Cog, name='Error Handler'):
                 print('{bname} encountered an error:\n{0}'.format(bt_string, bname=CONSTANTS.BOT_NAME))
                 cur.execute('INSERT INTO error_messages (message_id, channel_id, command_name, error_name, error_text, full_backtrace, full_command_string) VALUES (?,?,?,?,?,?,?);',(msg.id, msg.channel.id, ctx.command.name, str(type(error)), str(error), bt_string, ctx.message.content))
 
-    
-
-
     @commands.Cog.listener()
-
     async def on_raw_reaction_add(self, payload):
         if payload.user_id == self.bot.user.id:
             return
