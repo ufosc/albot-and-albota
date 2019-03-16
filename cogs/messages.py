@@ -44,36 +44,5 @@ async def track(message, author=None):
     with SQLCursor(sql_db) as cur:
                 cur.execute("INSERT INTO tracked_messages (messid, sender_uid, track_time) VALUES (?, ?, ?);", (message.id, aid, message.created_at))
 
-class ALBotFactorialHandler(commands.Cog, name='Factorial Handler'):
-
-    def __init__(self, bot):
-        self.bot = bot
-
-    @commands.Cog.listener()
-    async def on_message(self, msg):
-        """Checks message for factorial format using regex."""
-        if msg.author != self.bot.user:
-            import re
-            filtered_msg = re.findall('{(?:[0-9]|[1-8](?:[0-9]{1,2})?)!}', msg.content)
-            if filtered_msg is not None:
-                group_len = len(filtered_msg)
-                factorial = 'Factorial: `{}! = {}`' if group_len == 1 else 'The following factorials were calculated as:```'
-                import math
-                if group_len > 1:
-                    for i in range(0, group_len):
-                        num = int((filtered_msg[i].split('!')[0])[1:])
-                        product = math.factorial(num)
-                        factorial += '\n\n{}! = {}'.format(num, product)
-                    await msg.channel.send(factorial + '```')
-                elif group_len == 1:
-                    try:
-                        num = int((filtered_msg[0].split('!')[0])[1:])
-                        await msg.channel.send(factorial.format(num, math.factorial(num)))
-                    except discord.HTTPException as e:
-                        await msg.channel.send('Cannot post answer due to excessive character count! Maximum factorial allowed is `801!`.')
-
-        await self.bot.process_commands(msg)
-
 def setup(bot):
     bot.add_cog(ALBotMessageDeletionHandlers(bot, SQLConnection()))
-    bot.add_cog(ALBotFactorialHandler(bot))
