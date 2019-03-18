@@ -51,6 +51,5 @@ class Memes(commands.Cog, name='Memes'):
         """Messages "First" when a channel is created"""
         await channel.send('First')
 
-
 def setup(bot):
     bot.add_cog(Memes(bot))
