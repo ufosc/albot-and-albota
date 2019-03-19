@@ -24,12 +24,12 @@ class ALBotMessageDeletionHandlers(commands.Cog, name='Message Deletion Handlers
                 if row:
                     is_tracked = True
                     sender_uid = row[1]
-            
+
             if is_tracked:
                 reacting_member = self.bot.get_guild(payload.guild_id).get_member(payload.user_id)
                 can_delete = self.bot.get_channel(payload.channel_id).permissions_for(reacting_member).manage_messages
                 if payload.user_id == sender_uid or can_delete:
-                    relevant_message = await self.bot.get_channel(payload.channel_id).get_message(payload.message_id)
+                    relevant_message = await self.bot.get_channel(payload.channel_id).fetch_message(payload.message_id)
                     await relevant_message.delete()
 
 async def track(message, author=None):
@@ -71,8 +71,6 @@ class ALBotFactorialHandler(commands.Cog, name='Factorial Handler'):
                         await msg.channel.send(factorial.format(num, math.factorial(num)))
                     except discord.HTTPException as e:
                         await msg.channel.send('Cannot post answer due to excessive character count! Maximum factorial allowed is `801!`.')
-
-        await self.bot.process_commands(msg)
 
 def setup(bot):
     bot.add_cog(ALBotMessageDeletionHandlers(bot, SQLConnection()))
