@@ -4,12 +4,13 @@ from discord.ext import commands
 import cogs.CONSTANTS as CONSTANTS
 from database.database import SQLCursor, SQLConnection
 
-class ALBotMessageDeletionHandlers:
+class ALBotMessageDeletionHandlers(commands.Cog, name='Message Deletion Handlers'):
     """ Functions for handling tracked messages """
     def __init__(self, bot, db):
         self.bot = bot
         self.db = db
 
+    @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
         """ Checks reactions and deletes tracked messages when necessary. """
         if payload.user_id == self.bot.user.id:
@@ -42,7 +43,6 @@ async def track(message, author=None):
         aid = author.id
     with SQLCursor(sql_db) as cur:
                 cur.execute("INSERT INTO tracked_messages (messid, sender_uid, track_time) VALUES (?, ?, ?);", (message.id, aid, message.created_at))
-
 
 def setup(bot):
     bot.add_cog(ALBotMessageDeletionHandlers(bot, SQLConnection()))

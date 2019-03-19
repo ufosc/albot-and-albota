@@ -5,7 +5,7 @@ from discord.ext import commands
 import cogs.CONSTANTS as CONSTANTS
 import config
 
-'''Cogs to load when the bot first starts'''
+"""Cogs to load when the bot first starts"""
 startup_cogs = [
     "cogs.messages",
     "cogs.errors",
@@ -41,4 +41,5 @@ if __name__ == "__main__":
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extension {}\n{}'.format(extension, exc))
             
+
 bot.run(config.ALBOT_TOKEN)
