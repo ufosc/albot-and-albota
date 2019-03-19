@@ -4,4 +4,5 @@ __pycache__/
 config.py
 database/data/sqlite3.db
 
+
 .idea/
