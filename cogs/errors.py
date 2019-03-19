@@ -44,6 +44,7 @@ class ALBotErrorHandlers(commands.Cog, name='Error Handler'):
 
         return embed
 
+    @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if type(error) == discord.ext.commands.MissingPermissions:
             await ctx.message.add_reaction(CONSTANTS.REACTION_DENY)
