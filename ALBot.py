@@ -14,8 +14,9 @@ startup_cogs = [
     "cogs.projects",
     "cogs.admin",
     "cogs.music",
-    "cogs.compile",
-    "cogs.welcome"
+    "cogs.welcome",
+    "cogs.help",
+    "cogs.reminder"
 ]
 
 bot_url = 'https://discordapp.com/api/oauth2/authorize?client_id={0}&scope=bot&permissions=0'
@@ -30,7 +31,8 @@ async def on_ready():
     print('Invite URL: {iurl}'.format(iurl=bot_url.format(bot.user.id)))
     print('-----')
     await bot.change_presence(activity=discord.Game(name="Destroying propritary software"))
-    
+
+
 if __name__ == "__main__":
     for extension in startup_cogs:
         try:

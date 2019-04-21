@@ -21,7 +21,7 @@ class Admin(commands.Cog, name='Admin'):
                 self.bot.load_extension(extension_name)
             else:
                 self.bot.load_extension("cogs." + extension_name)
-        except (AttributeError, ImportError) as e:
+        except Exception as e:
             await ctx.send("```py\n{}: {}\n```".format(type(e).__name__, str(e)))
             return
         await ctx.send("{} loaded.".format(extension_name))
@@ -42,12 +42,10 @@ class Admin(commands.Cog, name='Admin'):
         """Unloads and then loads an extension"""
         try:
             if extension_name.startswith("cogs."):
-                self.bot.unload_extension(extension_name)
-                self.bot.load_extension(extension_name)
+                self.bot.reload_extension(extension_name)
             else:
-                self.bot.unload_extension("cogs." + extension_name)
-                self.bot.load_extension("cogs." + extension_name)
-        except (AttributeError, ImportError) as e:
+                self.bot.reload_extension("cogs." + extension_name)
+        except Exception as e:
             await ctx.send("```py\n{}: {}\n```".format(type(e).__name__, str(e)))
             return
         await ctx.send("{} reloaded.".format(extension_name))

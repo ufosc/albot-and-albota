@@ -33,9 +33,9 @@ class ALBotErrorHandlers(commands.Cog, name='Error Handler'):
                     break
         else:
             embed.add_field(name='Press {expand}'.format(expand=CONSTANTS.REACTION_EXPAND), value='for full error backtrace', inline=False)
-        
+
         return embed
-                
+
     def _construct_unknown_command_embed(self, error_text, full_text):
         title = "{notfound} Invalid command.".format(notfound=CONSTANTS.REACTION_NOT_FOUND)
         embed = discord.Embed(title=title, colour=discord.Colour(CONSTANTS.EMBED_COLOR_ERROR), description='```{0}```'.format(error_text))
@@ -44,6 +44,7 @@ class ALBotErrorHandlers(commands.Cog, name='Error Handler'):
 
         return embed
 
+    @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if type(error) == discord.ext.commands.MissingPermissions:
             await ctx.message.add_reaction(CONSTANTS.REACTION_DENY)
@@ -81,7 +82,7 @@ class ALBotErrorHandlers(commands.Cog, name='Error Handler'):
             if not row:
                 return
 
-            to_edit = await self.bot.get_channel(payload.channel_id).get_message(payload.message_id)
+            to_edit = await self.bot.get_channel(payload.channel_id).fetch_message(payload.message_id)
             new_embed = self._construct_error_embed(row[0],row[1],row[2],row[3],row[4])
             await to_edit.edit(content='{err} Command error {err}'.format(err=CONSTANTS.REACTION_ERROR),embed=new_embed)
 
@@ -97,11 +98,11 @@ class ALBotErrorHandlers(commands.Cog, name='Error Handler'):
             if not row:
                 return
 
-            to_edit = await self.bot.get_channel(payload.channel_id).get_message(payload.message_id)
+            to_edit = await self.bot.get_channel(payload.channel_id).fetch_message(payload.message_id)
             new_embed = self._construct_error_embed(row[0],row[1],row[2],row[3])
             await to_edit.edit(content='{err} Command error {err}'.format(err=CONSTANTS.REACTION_ERROR),embed=new_embed)
-    
-                
+
+
 
 def setup(bot):
     bot.add_cog(ALBotErrorHandlers(bot, SQLConnection()))
