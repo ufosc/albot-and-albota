@@ -71,12 +71,5 @@ class ALBotFactorialHandler(commands.Cog, name='Factorial Handler'):
                         await msg.channel.send(factorial.format(num, math.factorial(num)))
                     except discord.HTTPException as e:
                         await msg.channel.send('Cannot post answer due to excessive character count! Maximum factorial allowed is `801!`.')
-<<<<<<< HEAD
-
-        await self.bot.process_commands(msg)
-=======
->>>>>>> 297e1403a8d909bef18e9b8590c6d508c416834f
-
 def setup(bot):
     bot.add_cog(ALBotMessageDeletionHandlers(bot, SQLConnection()))
-    bot.add_cog(ALBotFactorialHandler(bot))
