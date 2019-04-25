@@ -1,5 +1,7 @@
+import asyncio
 import discord
 import random
+import praw
 from discord.ext import commands
 
 import cogs.util
@@ -8,6 +10,7 @@ class Memes(commands.Cog, name='Memes'):
     """All meme related commands"""
     def __init__(self, bot):
         self.bot = bot
+        self.going_for_gold = False
         self.playing_strings = []
         with open('cogs/playing_strings.txt', 'r') as f:
             self.playing_strings = f.read().splitlines()
@@ -51,6 +54,35 @@ class Memes(commands.Cog, name='Memes'):
         """Messages "First" when a channel is created"""
         await channel.send('First')
 
+    @commands.command()
+    async def getkarma(self, ctx):
+        """Makes the bot hungry for karma"""
+        await ctx.send("You are enabling daily karma grabbing from /r/programmerhumor")
+        self.going_for_gold = True
+        await self.dailykarma()
+
+    @commands.command()
+    async def forgetkarma(self, ctx):
+        """What's Reddit?"""
+        await ctx.send("You are disabling daily karma grabbing from /r/programmerhumor")
+        self.going_for_gold = False             
+        
+    async def dailykarma(self):
+        """Steals the top Reddit post for the day from /r/ph"""
+        channel = self.bot.get_channel(436915955348537346)
+        while self.going_for_gold:
+            reddit = praw.Reddit('bot1')
+            for submission in reddit.subreddit('programmerhumor').hot(limit=5):
+                picture_url = submission.url
+                ending = picture_url[-4:]
+                if ending == ".jpg":
+                    comments = list(submission.comments)
+                    mycomment = comments[0]
+                    await channel.send(mycomment.body)
+                    break
+            await channel.send("I made this, give me karma")
+            await channel.send(picture_url)
+            await asyncio.sleep(86400)
 
 def setup(bot):
     bot.add_cog(Memes(bot))
