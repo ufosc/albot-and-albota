@@ -54,6 +54,7 @@
 		"schema" : [
 			{
 				"column_name" : "position",
+				"primary" : true,
 				"type" : "TEXT"
 			},
 			{
