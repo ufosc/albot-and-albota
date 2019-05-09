@@ -72,6 +72,24 @@ class ALBotFactorialHandler(commands.Cog, name='Factorial Handler'):
                     except discord.HTTPException as e:
                         await msg.channel.send('Cannot post answer due to excessive character count! Maximum factorial allowed is `801!`.')
 
+
+class ALBotMessageClear(commands.Cog, name='Message Clear'):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command()
+    async def clear(self, ctx, a_number: int):
+
+        can_delete = self.bot.get_channel(ctx.channel.id).permissions_for(ctx.author).manage_messages
+        print(can_delete)
+        if can_delete:
+            async for message in ctx.channel.history(limit=a_number+1):
+                if not message.pinned:
+                    relevant_message = await self.bot.get_channel(ctx.channel.id).fetch_message(message.id)
+                    await relevant_message.delete()
+
+
 def setup(bot):
     bot.add_cog(ALBotMessageDeletionHandlers(bot, SQLConnection()))
     bot.add_cog(ALBotFactorialHandler(bot))
+    bot.add_cog(ALBotMessageClear(bot))
