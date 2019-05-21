@@ -66,9 +66,9 @@ class Government(commands.Cog, name='Government'):
                     else:
                         officers = (str(ctx.message.guild.get_member(int(row[1]))) if row[1] is not None and row[1].strip() is not '' else 'Vacant')
                     description = row[0]
-                    await ctx.message.channel.send('The current _{}_: _{}_'.format(pos + ('s are' if plural else ' is'), officers))
+                    await ctx.message.channel.send('The current _{}: _{}_'.format(pos + ('s_ are' if plural else '_ is'), officers))
                     if description is not None and description.strip() is not '':
-                        await ctx.message.channel.send('Description: {}'.format(description))
+                        await ctx.message.channel.send('Description: \n```{}```'.format(description))
         else:
             await ctx.channel.send('Invalid position. Here is a list of valid positions: ' + ', '.join(self.positions).replace('_', ' '))
 
@@ -97,6 +97,22 @@ class Government(commands.Cog, name='Government'):
         """Automatically update roles and officer positions based on election results."""
         if ctx.message.author.top_role.name.lower() == 'officer':
             await ctx.message.channel.send('Still working on integration with the election results. Maybe have a command to link to an elections database?')
+        else:
+            await ctx.message.channel.send('Hey! You do not have permission to do that.')
+
+    @admin.group()
+    @commands.guild_only()
+    async def description(self, ctx, pos ='', desc=''):
+        if ctx.message.author.top_role.name.lower() == 'officer':
+            if pos.strip() is not '':
+                with SQLCursor(self.db) as cur:
+                    cur.execute('UPDATE govt_info SET description = ? WHERE position = ?;', (desc, pos))
+                    if desc.strip() is '':
+                        await ctx.message.channel.send('Successfully cleared the description for position: **{}**'.format(pos))
+                    else:
+                        await ctx.message.channel.send('Successfully set a description for position: **{}**\n\nThe description is as follows:\n```{}```'.format(pos, desc))
+            else:
+                await ctx.message.channel.send('Invalid format, try: **eboard admin description <position> \"<desc>\"**')
         else:
             await ctx.message.channel.send('Hey! You do not have permission to do that.')
 
