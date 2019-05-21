@@ -66,5 +66,27 @@
 				"type" : "TEXT"
 			}
 		]
+	},
+	{
+		"table_name" : "leaderboard",
+		"schema" : [
+			{
+				"column_name" : "user",
+				"primary" : true,
+				"type" : "TEXT"
+			},
+			{
+				"column_name" : "commits",
+				"type" : "BIGINT"
+			},
+			{
+				"column_name" : "adds",
+				"type" : "BIGINT"
+			},
+			{
+				"column_name" : "subs",
+				"type" : "BIGINT"
+			}
+		]
 	}
 ]
