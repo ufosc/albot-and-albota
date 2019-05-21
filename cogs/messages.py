@@ -90,22 +90,27 @@ class ALBotMessageClear(commands.Cog, name='Message Clear'):
         can_delete = self.bot.get_channel(ctx.channel.id).permissions_for(ctx.author).manage_messages
         if can_delete:
             buffer = 1
-            # Warns user if the number is greater than 50
-            if a_number > 50:
+            # Warns user if the number is greater than 20
+            if a_number > 20:
                 buffer += 1
-                await ctx.channel.send(
-                    content="WARNING: You are about to delete more than 50 messages, are you sure you want to do this?")
+                user_message = ctx.channel.last_message
+                await ctx.channel.send("WARNING: You are about to delete more than 20 messages, are you sure you want to do this?")
                 reactions = ["✅", "❌"]
                 for emoji in reactions:
                     await ctx.channel.last_message.add_reaction(emoji)
-                await ctx.channel.send(
-                    content="Insert emoji reaction effects here, temporary 10 second wait time until implememnted")
-                await asyncio.sleep(10)
+
+                try:
+                    reaction, user = await self.bot.wait_for('reaction_add', timeout=30.0, check=lambda reaction, user: reaction.emoji == '✅')
+                except asyncio.TimeoutError:
+                    await ctx.channel.send('Command Timeout')
+                    return
 
             async for message in ctx.channel.history(limit=a_number+buffer):
                 if not message.pinned:
                     relevant_message = await self.bot.get_channel(ctx.channel.id).fetch_message(message.id)
                     await relevant_message.delete()
+                    await asyncio.sleep(0.4)
+        #    deleted = await ctx.channel.purge(limit=a_number+buffer, check=)
             await ctx.channel.send(content='@{} Successfully deleted {} messages'.format(ctx.author, a_number))
 
 def setup(bot):
