@@ -4,6 +4,7 @@ from discord.ext import commands
 
 import cogs.CONSTANTS as CONSTANTS
 import config
+from github import Github
 
 """Cogs to load when the bot first starts"""
 startup_cogs = [
@@ -14,8 +15,13 @@ startup_cogs = [
     "cogs.projects",
     "cogs.admin",
     "cogs.music",
-    "cogs.government"
+    "cogs.government",
+    "cogs.leaderboard",
+    "cogs.issues"
 ]
+
+# list the access token in your config.py
+# Use the GitHub Apps API and show the current milestones for all the current active projects. Show the top contributor of the week/month/semester and a little leaderboard based on commits/adds/subs. Also list some help wanted and good first issue issues for people to jump on. Also show the issues that people are assigned, with an @ for their discord username.
 
 bot_url = 'https://discordapp.com/api/oauth2/authorize?client_id={0}&scope=bot&permissions=0'
 
@@ -27,6 +33,10 @@ async def on_ready():
     global bot_url
     print('Logged in as "{name}" with id {id}'.format(name=bot.user.name,id=bot.user.id))
     print('Invite URL: {iurl}'.format(iurl=bot_url.format(bot.user.id)))
+    global git
+    git = Github(config.GITHUB_TOKEN)
+    org = git.get_organization('ufosc')
+    print('Successfully connected to the \'%s\' GitHub organization using PyGithub.' % org.login)
     print('-----')
     await bot.change_presence(activity=discord.Game(name="Destroying propritary software"))
 
