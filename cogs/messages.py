@@ -1,8 +1,6 @@
 import discord
 from discord.ext import commands
 
-import asyncio
-
 import cogs.CONSTANTS as CONSTANTS
 from database.database import SQLCursor, SQLConnection
 
@@ -74,41 +72,6 @@ class ALBotFactorialHandler(commands.Cog, name='Factorial Handler'):
                     except discord.HTTPException as e:
                         await msg.channel.send('Cannot post answer due to excessive character count! Maximum factorial allowed is `801!`.')
 
-
-class ALBotMessageClear(commands.Cog, name='Message Clear'):
-    """Functions for handling message deletion in channels"""
-    def __init__(self, bot):
-        self.bot = bot
-
-    @commands.command()
-    async def clear(self, ctx, a_number=0):
-        # Checks if number is positive int
-        if not a_number > 0:
-            await ctx.channel.send(content="Please input a number larger than zero")
-            return
-
-        can_delete = self.bot.get_channel(ctx.channel.id).permissions_for(ctx.author).manage_messages
-        if can_delete:
-            buffer = 1
-            # Warns user if the number is greater than 50
-            if a_number > 50:
-                buffer += 1
-                await ctx.channel.send(
-                    content="WARNING: You are about to delete more than 50 messages, are you sure you want to do this?")
-                reactions = ["✅", "❌"]
-                for emoji in reactions:
-                    await ctx.channel.last_message.add_reaction(emoji)
-                await ctx.channel.send(
-                    content="Insert emoji reaction effects here, temporary 10 second wait time until implememnted")
-                await asyncio.sleep(10)
-
-            async for message in ctx.channel.history(limit=a_number+buffer):
-                if not message.pinned:
-                    relevant_message = await self.bot.get_channel(ctx.channel.id).fetch_message(message.id)
-                    await relevant_message.delete()
-            await ctx.channel.send(content='@{} Successfully deleted {} messages'.format(ctx.author, a_number))
-
 def setup(bot):
     bot.add_cog(ALBotMessageDeletionHandlers(bot, SQLConnection()))
     bot.add_cog(ALBotFactorialHandler(bot))
-    bot.add_cog(ALBotMessageClear(bot))
