@@ -4,7 +4,7 @@ import random
 import praw
 from discord.ext import commands
 
-from CONSTANTS import OFFICER_ROLE
+from cogs.CONSTANTS import OFFICER_ROLE
 
 class Memes(commands.Cog, name='Memes'):
     """All meme related commands"""
