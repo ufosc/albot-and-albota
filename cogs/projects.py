@@ -2,11 +2,17 @@ import discord
 from discord.utils import get
 from discord.ext import commands
 
-class Projects:
-    '''Commands dealing with the different projects we are working on'''
-
+class Projects(commands.Cog, name='Projects'):
+    """Commands dealing with the different projects we are working on"""
     def __init__(self, bot):
         self.bot = bot
+
+    async def alumnus(self, ctx):
+        """"Add the Alumnus role to the user"""
+        role = discord.utils.get(ctx.guild.roles, name="alumnus")
+        await ctx.author.add_roles(role)
+        await ctx.send("Eway elcomway youway otay hetay alumni ounglay")
+        await ctx.send(":thinking:")
 
     async def muddy(self, ctx):
         """Add the muddy swamp role to the user"""
@@ -30,7 +36,9 @@ class Projects:
     @commands.command()
     async def join(self, ctx, *, roleName: str):
         """Add a role to a user"""
-        if roleName.lower() in ["muddy", "muddy swamp", "muddyswamp", "muddy-swamp", "MUD"]:
+        if roleName.lower() in ["alumni", "alumnus", "alumna", "alum", "stultus", "stulta"]:
+            await self.alumnus(ctx)
+        elif roleName.lower() in ["muddy", "muddy swamp", "muddyswamp", "muddy-swamp", "MUD"]:
             await self.muddy(ctx)
         elif roleName.lower() in ["website", "club site", "club website", "clubwebsite", "clubsite"]:
             await self.website(ctx)

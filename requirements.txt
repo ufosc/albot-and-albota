@@ -1,3 +1,4 @@
-git+https://github.com/Rapptz/discord.py@rewrite#egg=discord.py[voice]
-youtube_dl
-requests
+discord.py[voice]==1.1.1
+youtube_dl==2019.6.8
+requests==2.21.0
+praw==6.2.0

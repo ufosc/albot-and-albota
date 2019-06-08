@@ -5,7 +5,8 @@ import json
 
 import cogs.util
 
-class Compile:
+class Compile(commands.Cog, name='Compile'):
+
     def __init__(self, bot):
         self.bot = bot
         self.complangs = []
@@ -13,7 +14,7 @@ class Compile:
 
     @commands.command(name="complangs")
     async def compile_langs(self, ctx):
-        '''Get the languages and ids for compiling code'''
+        """Get the languages and ids for compiling code"""
         if len(self.complangs) == 0:
             langs = requests.get("https://api.judge0.com/languages")
 
@@ -27,7 +28,7 @@ class Compile:
 
     @commands.command(name="compile")
     async def _compile(self, ctx, lang_id : int, *, program : str):
-        '''Compiles and runs code using the judge0 api'''
+        """Compiles and runs code using the judge0 api"""
         payload = {'source_code' : program, 'language_id' : lang_id}
         headers = {'Content-Type': "application/json"}
         r = requests.post("https://api.judge0.com/submissions/?base64_encoded=false&wait=true", data=json.dumps(payload), headers=headers)
@@ -43,7 +44,7 @@ class Compile:
     @commands.command(name="compdebug")
     @commands.check(cogs.util.is_officer_check)
     async def debug_compile(self, ctx):
-        '''Toggles whether to print the full compile output'''
+        """Toggles whether to print the full compile output"""
         self.is_debug = not self.is_debug
         await ctx.send("is_debugging = {}".format(self.is_debug))
 

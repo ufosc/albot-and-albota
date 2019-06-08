@@ -3,3 +3,6 @@ __pycache__/
 *.jpg
 config.py
 database/data/sqlite3.db
+praw.ini
+
+.idea/

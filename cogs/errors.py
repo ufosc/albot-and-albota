@@ -9,9 +9,8 @@ import cogs.CONSTANTS as CONSTANTS
 from database.database import SQLCursor, SQLConnection
 from cogs.messages import track
 
-class ALBotErrorHandlers:
+class ALBotErrorHandlers(commands.Cog, name='Error Handler'):
     """ Handles errors """
-
     def __init__(self, bot, db):
         self.bot = bot
         self.db = db
@@ -34,9 +33,9 @@ class ALBotErrorHandlers:
                     break
         else:
             embed.add_field(name='Press {expand}'.format(expand=CONSTANTS.REACTION_EXPAND), value='for full error backtrace', inline=False)
-        
+
         return embed
-                
+
     def _construct_unknown_command_embed(self, error_text, full_text):
         title = "{notfound} Invalid command.".format(notfound=CONSTANTS.REACTION_NOT_FOUND)
         embed = discord.Embed(title=title, colour=discord.Colour(CONSTANTS.EMBED_COLOR_ERROR), description='```{0}```'.format(error_text))
@@ -45,6 +44,7 @@ class ALBotErrorHandlers:
 
         return embed
 
+    @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if type(error) == discord.ext.commands.MissingPermissions:
             await ctx.message.add_reaction(CONSTANTS.REACTION_DENY)
@@ -69,7 +69,8 @@ class ALBotErrorHandlers:
                 bt_string = ''.join(traceback.format_exception(type(error), error, error.__traceback__))
                 print('{bname} encountered an error:\n{0}'.format(bt_string, bname=CONSTANTS.BOT_NAME))
                 cur.execute('INSERT INTO error_messages (message_id, channel_id, command_name, error_name, error_text, full_backtrace, full_command_string) VALUES (?,?,?,?,?,?,?);',(msg.id, msg.channel.id, ctx.command.name, str(type(error)), str(error), bt_string, ctx.message.content))
-    
+
+    @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
         if payload.user_id == self.bot.user.id:
             return
@@ -81,10 +82,11 @@ class ALBotErrorHandlers:
             if not row:
                 return
 
-            to_edit = await self.bot.get_channel(payload.channel_id).get_message(payload.message_id)
+            to_edit = await self.bot.get_channel(payload.channel_id).fetch_message(payload.message_id)
             new_embed = self._construct_error_embed(row[0],row[1],row[2],row[3],row[4])
             await to_edit.edit(content='{err} Command error {err}'.format(err=CONSTANTS.REACTION_ERROR),embed=new_embed)
-    
+
+    @commands.Cog.listener()
     async def on_raw_reaction_remove(self, payload):
         if payload.user_id == self.bot.user.id:
             return
@@ -96,11 +98,11 @@ class ALBotErrorHandlers:
             if not row:
                 return
 
-            to_edit = await self.bot.get_channel(payload.channel_id).get_message(payload.message_id)
+            to_edit = await self.bot.get_channel(payload.channel_id).fetch_message(payload.message_id)
             new_embed = self._construct_error_embed(row[0],row[1],row[2],row[3])
             await to_edit.edit(content='{err} Command error {err}'.format(err=CONSTANTS.REACTION_ERROR),embed=new_embed)
-    
-                
+
+
 
 def setup(bot):
     bot.add_cog(ALBotErrorHandlers(bot, SQLConnection()))
