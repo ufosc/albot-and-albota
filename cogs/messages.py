@@ -81,9 +81,9 @@ class ALBotMessageClear(commands.Cog, name='Message Clear'):
         self.bot = bot
 
     @commands.command()
-    async def clear(self, ctx, a_number=0):
+    async def clear(self, ctx, a_number):
         # Checks if number is positive int
-        if not a_number > 0:
+        if not isinstance(a_number, int) or not a_number > 0:
             await ctx.channel.send(content="Please input a number larger than zero")
             return
 
