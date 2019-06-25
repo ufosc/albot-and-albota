@@ -87,30 +87,56 @@ class ALBotMessageClear(commands.Cog, name='Message Clear'):
             await ctx.channel.send(content="Please input a number larger than zero")
             return
 
-        can_delete = self.bot.get_channel(ctx.channel.id).permissions_for(ctx.author).manage_messages
-        if can_delete:
-            buffer = 1
-            # Warns user if the number is greater than 20
-            if a_number > 20:
-                buffer += 1
-                user_message = ctx.channel.last_message
-                await ctx.channel.send("WARNING: You are about to delete more than 20 messages, are you sure you want to do this?")
-                reactions = ["✅", "❌"]
-                for emoji in reactions:
-                    await ctx.channel.last_message.add_reaction(emoji)
+        # checks the message reaction to see if the user confirms or cancels the command and returns True or False respectively
+        async def confirms(self, ctx, user, bot_msg):
+            while True:
 
-                try:
-                    reaction, user = await self.bot.wait_for('reaction_add', timeout=30.0, check=lambda reaction, user: reaction.emoji == '✅')
-                except asyncio.TimeoutError:
-                    await ctx.channel.send('Command Timeout')
-                    return
+                def check(reaction: discord.Reaction, adder: discord.User) -> bool:
+                    return adder == user and reaction.message.id == bot_msg.id
 
-            async for message in ctx.channel.history(limit=a_number+buffer):
+                reaction, adder = await self.bot.wait_for('reaction_add', timeout=30.0, check=check)
+
+                if reaction.emoji == "✅":
+                    return True
+                elif reaction.emoji == "❌":
+                    return False
+
+        # checks user permissions to see if they can manage messages in the channel
+        if self.bot.get_channel(ctx.channel.id).permissions_for(ctx.author).manage_messages:
+            user = ctx.channel.last_message.author
+            user_msg = ctx.channel.last_message
+
+            # warns the user and confirms the clear command
+            await ctx.channel.send("WARNING: You are about to delete {} messages, are you sure you want to do this?".format(a_number))
+            bot_msg = ctx.channel.last_message
+
+            #adds reactions to the bot message
+            reactions = ["✅","❌"]
+            for emoji in reactions:
+                await ctx.channel.last_message.add_reaction(emoji)
+
+            # Waits 30s for a user reaction and continues only if they respond with ❌ or ✅
+            try:
+                cont = await confirms(self, ctx, user, bot_msg)
+            except asyncio.TimeoutError:
+                await bot_msg.delete()
+                await ctx.channel.send('Clear command Timeout')
+                return
+
+            # Cancels the command and deletes the bot message
+            if not cont:
+                await bot_msg.delete()
+                await ctx.channel.send(content='Clear command cancelled')
+                return
+
+            # deletes bot message, user msg, then loops through channel deleting messages
+            await bot_msg.delete()
+            await user_msg.delete()
+            async for message in ctx.channel.history(limit=a_number):
                 if not message.pinned:
                     relevant_message = await self.bot.get_channel(ctx.channel.id).fetch_message(message.id)
                     await relevant_message.delete()
                     await asyncio.sleep(0.4)
-        #    deleted = await ctx.channel.purge(limit=a_number+buffer, check=)
             await ctx.channel.send(content='@{} Successfully deleted {} messages'.format(ctx.author, a_number))
 
 def setup(bot):
