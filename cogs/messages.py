@@ -113,7 +113,7 @@ class ALBotMessageClear(commands.Cog, name='Message Clear'):
             #adds reactions to the bot message
             reactions = ["✅","❌"]
             for emoji in reactions:
-                await ctx.channel.last_message.add_reaction(emoji)
+                await bot_msg.add_reaction(emoji)
 
             # Waits 30s for a user reaction and continues only if they respond with ❌ or ✅
             try:
@@ -132,12 +132,12 @@ class ALBotMessageClear(commands.Cog, name='Message Clear'):
             # deletes bot message, user msg, then loops through channel deleting messages
             await bot_msg.delete()
             await user_msg.delete()
-            async for message in ctx.channel.history(limit=a_number):
+            async for message in ctx.channel.history(limit=int(a_number)):
                 if not message.pinned:
                     relevant_message = await self.bot.get_channel(ctx.channel.id).fetch_message(message.id)
                     await relevant_message.delete()
                     await asyncio.sleep(0.4)
-            await ctx.channel.send(content='@{} Successfully deleted {} messages'.format(ctx.author, a_number))
+            await ctx.channel.send(content='@{} Successfully deleted {} messages'.format(ctx.author, int(a_number)))
 
 def setup(bot):
     bot.add_cog(ALBotMessageDeletionHandlers(bot, SQLConnection()))
