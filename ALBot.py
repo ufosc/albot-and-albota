@@ -18,7 +18,8 @@ startup_cogs = [
     "cogs.welcome",
     "cogs.help",
     "cogs.reminder",
-    "cogs.government"
+    "cogs.government",
+    "cogs.polling"
 ]
 
 # list the access token in your config.py
