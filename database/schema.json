@@ -19,34 +19,34 @@
 	{
 		"table_name" : "error_messages",
 		"schema" : [
-				{
-					"column_name" : "message_id",
-					"type" : "BIGINT"
-				},
-				{
-					"column_name" : "channel_id",
-					"type" : "BIGINT"
-				},
-				{
-					"column_name" : "command_name",
-					"type" : "TEXT"
-				},
-				{
-					"column_name" : "error_name",
-					"type" : "TEXT"
-				},
-				{
-					"column_name" : "error_text",
-					"type" : "TEXT"
-				},
-				{
-					"column_name" : "full_backtrace",
-					"type" : "TEXT"
-				},
-				{
-					"column_name" : "full_command_string",
-					"type" : "TEXT"
-				}
+			{
+				"column_name" : "message_id",
+				"type" : "BIGINT"
+			},
+			{
+				"column_name" : "channel_id",
+				"type" : "BIGINT"
+			},
+			{
+				"column_name" : "command_name",
+				"type" : "TEXT"
+			},
+			{
+				"column_name" : "error_name",
+				"type" : "TEXT"
+			},
+			{
+				"column_name" : "error_text",
+				"type" : "TEXT"
+			},
+			{
+				"column_name" : "full_backtrace",
+				"type" : "TEXT"
+			},
+			{
+				"column_name" : "full_command_string",
+				"type" : "TEXT"
+			}
 		]
 	},
 	{
@@ -86,6 +86,31 @@
 			{
 				"column_name" : "subs",
 				"type" : "BIGINT"
+			}
+		]
+	},
+	{
+		"table_name" : "poll_info",
+		"schema" : [
+			{
+				"column_name" : "poll_title",
+				"type" : "TEXT"
+			},
+			{
+				"column_name" : "message_id",
+				"type" : "BIGINT"
+			},
+			{
+				"column_name" : "channel_id",
+				"type" : "BIGINT"
+			},
+			{
+				"column_name" : "user_id",
+				"type" : "BIGINT"
+			},
+			{
+				"column_name" : "results",
+				"type" : "TEXT"
 			}
 		]
 	}
