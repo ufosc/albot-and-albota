@@ -1,3 +1,4 @@
+import asyncio
 import discord
 from discord.ext import commands
 
@@ -132,11 +133,11 @@ class ALBotMessageClear(commands.Cog, name='Message Clear'):
             await user_msg.delete()
             async for message in ctx.channel.history(limit=int(a_number)):
                 if not message.pinned:
-                    relevant_message = await self.bot.get_channel(ctx.channel.id).fetch_message(message.id)
-                    await relevant_message.delete()
+                    await message.delete()
                     await asyncio.sleep(0.4)
             await ctx.channel.send(content='@{} Successfully deleted {} messages'.format(ctx.author, int(a_number)))
 
 def setup(bot):
     bot.add_cog(ALBotMessageDeletionHandlers(bot, SQLConnection()))
     bot.add_cog(ALBotFactorialHandler(bot))
+    bot.add_cog(ALBotMessageClear(bot))
