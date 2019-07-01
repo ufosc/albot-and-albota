@@ -3,7 +3,7 @@ from discord.ext import commands
 import requests
 import json
 
-import cogs.util
+from CONSTANTS import OFFICER_ROLE
 
 class Compile(commands.Cog, name='Compile'):
 
@@ -42,7 +42,7 @@ class Compile(commands.Cog, name='Compile'):
             await ctx.send("Program failed with output:\n\n```json\n{}\n```".format(json.dumps(response, sort_keys=True, indent=4)))
 
     @commands.command(name="compdebug")
-    @commands.check(cogs.util.is_officer_check)
+    @commands.has_role(OFFICER_ROLE)
     async def debug_compile(self, ctx):
         """Toggles whether to print the full compile output"""
         self.is_debug = not self.is_debug

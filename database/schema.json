@@ -48,5 +48,23 @@
 					"type" : "TEXT"
 				}
 		]
+	},
+	{
+		"table_name" : "govt_info",
+		"schema" : [
+			{
+				"column_name" : "position",
+				"primary" : true,
+				"type" : "TEXT"
+			},
+			{
+				"column_name" : "description",
+				"type" : "TEXT"
+			},
+			{
+				"column_name" : "officer",
+				"type" : "TEXT"
+			}
+		]
 	}
 ]

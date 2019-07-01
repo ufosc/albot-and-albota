@@ -1,8 +1,6 @@
 import discord
 from discord.ext import commands
 
-import asyncio
-
 import cogs.CONSTANTS as CONSTANTS
 from database.database import SQLCursor, SQLConnection
 
@@ -142,4 +140,3 @@ class ALBotMessageClear(commands.Cog, name='Message Clear'):
 def setup(bot):
     bot.add_cog(ALBotMessageDeletionHandlers(bot, SQLConnection()))
     bot.add_cog(ALBotFactorialHandler(bot))
-    bot.add_cog(ALBotMessageClear(bot))
