@@ -5,7 +5,7 @@ from discord.ext import commands
 from contextlib import redirect_stdout
 import io
 
-import cogs.util
+from cogs.CONSTANTS import OFFICER_ROLE
 
 class Admin(commands.Cog, name='Admin'):
 
@@ -13,7 +13,7 @@ class Admin(commands.Cog, name='Admin'):
         self.bot = bot
 
     @commands.command(hidden=True)
-    @commands.check(cogs.util.is_officer_check)
+    @commands.has_role(OFFICER_ROLE)
     async def load(self, ctx, extension_name : str):
         """Loads an extension."""
         try:
@@ -27,7 +27,7 @@ class Admin(commands.Cog, name='Admin'):
         await ctx.send("{} loaded.".format(extension_name))
 
     @commands.command(hidden=True)
-    @commands.check(cogs.util.is_officer_check)
+    @commands.has_role(OFFICER_ROLE)
     async def unload(self, ctx, extension_name : str):
         """Unloads an extension."""
         if extension_name.startswith("cogs."):
@@ -37,7 +37,7 @@ class Admin(commands.Cog, name='Admin'):
         await ctx.send("{} unloaded.".format(extension_name))
 
     @commands.command(hidden=True)
-    @commands.check(cogs.util.is_officer_check)
+    @commands.has_role(OFFICER_ROLE)
     async def reload(self, ctx, extension_name : str):
         """Unloads and then loads an extension"""
         try:
@@ -51,12 +51,12 @@ class Admin(commands.Cog, name='Admin'):
         await ctx.send("{} reloaded.".format(extension_name))
 
     @commands.command(hidden=True)
-    @commands.check(cogs.util.is_officer_check)
+    @commands.has_role(OFFICER_ROLE)
     async def whereami(self, ctx):
         await ctx.send("You are in {} with id {}".format(ctx.channel.name, ctx.channel.id))
 
     @commands.command(hidden=True, name="eval")
-    @commands.check(cogs.util.is_owner)
+    @commands.is_owner()
     async def admin_eval(self, ctx, *, cmd : str):
         """Evaluates Python code only if the executor is hjarrell"""
         env = {

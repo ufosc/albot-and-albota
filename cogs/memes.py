@@ -4,7 +4,7 @@ import random
 import praw
 from discord.ext import commands
 
-import cogs.util
+from cogs.CONSTANTS import OFFICER_ROLE
 
 class Memes(commands.Cog, name='Memes'):
     """All meme related commands"""
@@ -32,7 +32,7 @@ class Memes(commands.Cog, name='Memes'):
         await ctx.send(file=discord.File('alligator.jpg'))
 
     @commands.command()
-    @commands.check(cogs.util.is_officer_check)
+    @commands.has_role(OFFICER_ROLE)
     async def randplaying(self, ctx):
         """Randomly changes the playing text"""
         new_playing = random.choice(self.playing_strings)
@@ -40,7 +40,7 @@ class Memes(commands.Cog, name='Memes'):
         await ctx.send('I am now {}'.format(new_playing))
 
     @commands.command()
-    @commands.check(cogs.util.is_officer_check)
+    @commands.has_role(OFFICER_ROLE)
     async def setplaying(self, ctx, *, playing: str):
         """Lets an officer set the playing text"""
         await self.bot.change_presence(activity=discord.Game(name=playing))
