@@ -79,6 +79,7 @@ class ALBotMessageClear(commands.Cog, name='Message Clear'):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.has_role(CONSTANTS.OFFICER_ROLE)
     @commands.command()
     async def clear(self, ctx, a_number):
         # Checks if number is positive int
