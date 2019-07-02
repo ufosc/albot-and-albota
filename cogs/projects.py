@@ -35,7 +35,7 @@ class Projects(commands.Cog, name='Projects'):
 
     async def albot(self, ctx):
         """Add the bot role to the user"""
-        role = get(ctx.guild.roles, name="bot")
+        role = get(ctx.guild.roles, name="bot-dev")
         await ctx.author.add_roles(role)
         await ctx.send("I, for one, welcome our robot overlords")
 
@@ -68,7 +68,7 @@ class Projects(commands.Cog, name='Projects'):
         embed.add_field(name="Join using", value="!join clubsite", inline=True)
         await ctx.send(embed=embed)
 
-        embed = discord.Embed(title="Bot", url="https://github.com/ufosc/club-website", description="A python based discord bot", color=0x808080)
+        embed = discord.Embed(title="Bot", url="https://github.com/ufosc/albot-and-albota", description="A python based discord bot", color=0x808080)
         embed.add_field(name="Join using", value="!join bot", inline=True)
         await ctx.send(embed=embed)
 
