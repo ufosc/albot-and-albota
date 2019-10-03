@@ -2,3 +2,4 @@ discord.py[voice]
 youtube_dl
 requests
 praw
+pygithub
