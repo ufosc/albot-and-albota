@@ -27,9 +27,6 @@ class Reminder(commands.Cog, name='Reminder'):
         while True:
             cur_time = datetime.datetime.now()
             day_delta = trigger_day - cur_time.weekday()
-            print(day_delta)
-            print(cur_time)
-            print(cur_time.weekday())
             if day_delta <= 0:
                 day_delta += 7
 
