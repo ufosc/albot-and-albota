@@ -15,7 +15,6 @@ class Memes(commands.Cog, name='Memes'):
         self.drinking = False
         self.thirsty = True
         self.hydration = 100
-        self.increasethirst()
         with open('cogs/playing_strings.txt', 'r') as f:
             self.playing_strings = f.read().splitlines()
 
@@ -103,7 +102,11 @@ class Memes(commands.Cog, name='Memes'):
 
     @commands.command()
     async def checkhydration(self, ctx):
-        await ctx.send("My hydration is " + self.hydration)
+        await ctx.send("My hydration is " + str(self.hydration))
+
+    @commands.command()
+    async def begindrinking(self):
+        await self.increasethirst()
 
     async def increasethirst(self):
         """Makes Albot thirstier"""
