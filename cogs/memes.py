@@ -12,6 +12,10 @@ class Memes(commands.Cog, name='Memes'):
         self.bot = bot
         self.going_for_gold = False
         self.playing_strings = []
+        self.drinking = False
+        self.thirsty = True
+        self.hydration = 100
+        self.increasethirst()
         with open('cogs/playing_strings.txt', 'r') as f:
             self.playing_strings = f.read().splitlines()
 
@@ -83,6 +87,30 @@ class Memes(commands.Cog, name='Memes'):
             await channel.send("I made this, give me karma")
             await channel.send(picture_url)
             await asyncio.sleep(86400)
+
+    @commands.command()
+    async def drink(self, ctx):
+        """Give Albot a drink! Once per hour"""
+        self.drinking = True
+        if(self.hydration < 100 and self.thirsty):
+            self.hydration = 100
+            self.thirsty = False
+            await ctx.send("Thanks for the drink uwu")
+            await asyncio.sleep(3600)
+            self.thirsty = True
+        else:
+            await ctx.send("Sowwy I'm not vewy thwisty umu")
+
+    @commands.command()
+    async def checkhydration(self, ctx):
+        await ctx.send("My hydration is " + self.hydration)
+
+    async def increasethirst(self):
+        """Makes Albot thirstier"""
+        while self.drinking:
+            if(self.hydration > 25):
+                self.hydration -= 25
+            await asyncio.sleep(3600)
 
 def setup(bot):
     bot.add_cog(Memes(bot))
