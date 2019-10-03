@@ -14,7 +14,7 @@ class Reminder(commands.Cog, name='Reminder'):
         self.book_room_bg_task = self.bot.loop.create_task(self.book_room_reminder())
     
     async def book_room_reminder(self):
-        """ Every week, on Wednesday at 00:00, this method sends a reminder
+        """ Every week, on Wednesday at 16:00, this method sends a reminder
             message to all users in the provided channel, reminding them to
             book a room for casual coding.
         """
