@@ -8,6 +8,7 @@ voting_emojis = ["0\u20e3", "1\u20e3", "2\u20e3", "3\u20e3", "4\u20e3",
 
 class Polling(commands.Cog, name='Polling'):
     """To allow users to vote with emojis"""
+    
     def __init__(self, bot):
         self.bot = bot
 
@@ -37,7 +38,6 @@ class Polling(commands.Cog, name='Polling'):
     @commands.command()
     async def simplepoll(self, ctx, title, *options):
         """[public] !simplepoll "title" option0 option1... option9"""
-
         if len(options) < 1:
             await ctx.send("Not enough options. You must have at least 1 option.")
             return
