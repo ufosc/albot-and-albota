@@ -8,6 +8,7 @@ class Welcome(commands.Cog, name="Welcome"):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.Cog.listener()
     async def on_member_join(self, member):
         fmt = """Welcome {0.mention}! \nFeel free to use \"!question\" to let us know if you have any questions \nAnd you can also use \"!help\", all in the #bot-spam channel to find out about what you can do with our Discord bot ALBot :D """
         dm_channel = member.dm_channel

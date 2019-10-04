@@ -1,3 +1,4 @@
+import asyncio
 import discord
 from discord.ext import commands
 
@@ -72,6 +73,72 @@ class ALBotFactorialHandler(commands.Cog, name='Factorial Handler'):
                     except discord.HTTPException as e:
                         await msg.channel.send('Cannot post answer due to excessive character count! Maximum factorial allowed is `801!`.')
 
+
+class ALBotMessageClear(commands.Cog, name='Message Clear'):
+    """Functions for handling message deletion in channels"""
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.has_role(CONSTANTS.OFFICER_ROLE)
+    @commands.command()
+    async def clear(self, ctx, a_number):
+        # Checks if number is positive int
+        if not a_number.isdigit() or not int(a_number) > 0:
+            await ctx.channel.send(content="Please input a number larger than zero")
+            return
+
+        # checks the message reaction to see if the user confirms or cancels the command and returns True or False respectively
+        async def confirms(self, ctx, user, bot_msg):
+            while True:
+
+                def check(reaction: discord.Reaction, adder: discord.User) -> bool:
+                    return adder == user and reaction.message.id == bot_msg.id
+
+                reaction, adder = await self.bot.wait_for('reaction_add', timeout=30.0, check=check)
+
+                if reaction.emoji == "✅":
+                    return True
+                elif reaction.emoji == "❌":
+                    return False
+
+        # checks user permissions to see if they can manage messages in the channel
+        if self.bot.get_channel(ctx.channel.id).permissions_for(ctx.author).manage_messages:
+            user = ctx.channel.last_message.author
+            user_msg = ctx.channel.last_message
+
+            # warns the user and confirms the clear command
+            await ctx.channel.send("WARNING: You are about to delete {} messages, are you sure you want to do this?".format(a_number))
+            bot_msg = ctx.channel.last_message
+
+            #adds reactions to the bot message
+            reactions = ["✅","❌"]
+            for emoji in reactions:
+                await bot_msg.add_reaction(emoji)
+
+            # Waits 30s for a user reaction and continues only if they respond with ❌ or ✅
+            try:
+                cont = await confirms(self, ctx, user, bot_msg)
+            except asyncio.TimeoutError:
+                await bot_msg.delete()
+                await ctx.channel.send('Clear command Timeout')
+                return
+
+            # Cancels the command and deletes the bot message
+            if not cont:
+                await bot_msg.delete()
+                await ctx.channel.send(content='Clear command cancelled')
+                return
+
+            # deletes bot message, user msg, then loops through channel deleting messages
+            await bot_msg.delete()
+            await user_msg.delete()
+            async for message in ctx.channel.history(limit=int(a_number)):
+                if not message.pinned:
+                    await message.delete()
+                    await asyncio.sleep(0.4)
+            await ctx.channel.send(content='@{} Successfully deleted {} messages'.format(ctx.author, int(a_number)))
+
 def setup(bot):
     bot.add_cog(ALBotMessageDeletionHandlers(bot, SQLConnection()))
     bot.add_cog(ALBotFactorialHandler(bot))
+    bot.add_cog(ALBotMessageClear(bot))

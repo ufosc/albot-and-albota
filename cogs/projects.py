@@ -33,6 +33,12 @@ class Projects(commands.Cog, name='Projects'):
         await ctx.author.add_roles(role)
         await ctx.send("Newell is the best 24/7 library. Don't @ me")
 
+    async def albot(self, ctx):
+        """Add the bot role to the user"""
+        role = get(ctx.guild.roles, name="bot-dev")
+        await ctx.author.add_roles(role)
+        await ctx.send("I, for one, welcome our robot overlords")
+
     @commands.command()
     async def join(self, ctx, *, roleName: str):
         """Add a role to a user"""
@@ -44,6 +50,8 @@ class Projects(commands.Cog, name='Projects'):
             await self.website(ctx)
         elif roleName.lower() in ["mvw", "marstonvswest", "marston vs west", "marston v west"]:
             await self.mvw(ctx)
+        elif roleName.lower() in ["bot", "albot"]:
+            await self.albot(ctx)
 
     @commands.command()
     async def list(self, ctx):
@@ -58,6 +66,10 @@ class Projects(commands.Cog, name='Projects'):
 
         embed=discord.Embed(title="Club Website", url="https://github.com/ufosc/club-website", description="Our club website made using basic HTML, CSS, and JS.", color=0x00ecff)
         embed.add_field(name="Join using", value="!join clubsite", inline=True)
+        await ctx.send(embed=embed)
+
+        embed = discord.Embed(title="Bot", url="https://github.com/ufosc/albot-and-albota", description="A python based discord bot", color=0x808080)
+        embed.add_field(name="Join using", value="!join bot", inline=True)
         await ctx.send(embed=embed)
 
 def setup(bot):

@@ -68,6 +68,28 @@
 		]
 	},
 	{
+		"table_name" : "leaderboard",
+		"schema" : [
+			{
+				"column_name" : "user",
+				"primary" : true,
+				"type" : "TEXT"
+			},
+			{
+				"column_name" : "commits",
+				"type" : "BIGINT"
+			},
+			{
+				"column_name" : "adds",
+				"type" : "BIGINT"
+			},
+			{
+				"column_name" : "subs",
+				"type" : "BIGINT"
+			}
+		]
+	},
+	{
 		"table_name" : "poll_info",
 		"schema" : [
 			{

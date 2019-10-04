@@ -13,7 +13,7 @@ class Government(commands.Cog, name='Government'):
         self.db = db
 
     # Valid positions types. TODO: Consider changing to an enum type.
-    positions = ['social_chair', 'external_relations', 'secretary', 'server_admin']
+    positions = ['social_chair', 'external_relations', 'secretary', 'server_admin', 'usab_rep']
 
     @commands.group(invoke_without_command=True, name='eboard')
     @commands.guild_only()
@@ -171,7 +171,7 @@ class Government(commands.Cog, name='Government'):
 
     async def query_positions(self):
         """Returns an array of positions and corresponding descriptions."""
-        values = [{} for _ in range(4)]
+        values = [{} for _ in range(len(self.positions))]
         counter = 0
         with SQLCursor(self.db) as cur:
             for pos in self.positions:
