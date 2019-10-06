@@ -4,7 +4,7 @@ import random
 import praw
 from discord.ext import commands
 
-from cogs.CONSTANTS import OFFICER_ROLE
+import cogs.CONSTANTS as CONST
 
 class Memes(commands.Cog, name='Memes'):
     """All meme related commands"""
@@ -14,7 +14,7 @@ class Memes(commands.Cog, name='Memes'):
         self.playing_strings = []
         self.drinking = False
         self.thirsty = True
-        self.hydration = 100
+        self.hydration = 0
         with open('cogs/playing_strings.txt', 'r') as f:
             self.playing_strings = f.read().splitlines()
 
@@ -35,7 +35,7 @@ class Memes(commands.Cog, name='Memes'):
         await ctx.send(file=discord.File('alligator.jpg'))
 
     @commands.command()
-    @commands.has_role(OFFICER_ROLE)
+    @commands.has_role(CONST.OFFICER_ROLE)
     async def randplaying(self, ctx):
         """Randomly changes the playing text"""
         new_playing = random.choice(self.playing_strings)
@@ -43,7 +43,7 @@ class Memes(commands.Cog, name='Memes'):
         await ctx.send('I am now {}'.format(new_playing))
 
     @commands.command()
-    @commands.has_role(OFFICER_ROLE)
+    @commands.has_role(CONST.OFFICER_ROLE)
     async def setplaying(self, ctx, *, playing: str):
         """Lets an officer set the playing text"""
         await self.bot.change_presence(activity=discord.Game(name=playing))
@@ -72,8 +72,9 @@ class Memes(commands.Cog, name='Memes'):
         
     async def dailykarma(self):
         """Steals the top Reddit post for the day from /r/ph"""
-        channel = self.bot.get_channel(436915955348537346)
+        channel = self.bot.get_channel(CONST.MEME_CHANNEL)
         while self.going_for_gold:
+            message = ""
             reddit = praw.Reddit('bot1')
             for submission in reddit.subreddit('programmerhumor').hot(limit=5):
                 picture_url = submission.url
@@ -81,39 +82,49 @@ class Memes(commands.Cog, name='Memes'):
                 if ending == ".jpg":
                     comments = list(submission.comments)
                     mycomment = comments[0]
-                    await channel.send(mycomment.body)
+                    message += mycomment.body + "\n"
                     break
+            message += picture_url + "\n"
+            await channel.send(message)
             await channel.send("I made this, give me karma")
-            await channel.send(picture_url)
-            await asyncio.sleep(86400)
+
+            await asyncio.sleep(CONST.DAY)
 
     @commands.command()
     async def drink(self, ctx):
         """Give Albot a drink! Once per hour"""
         self.drinking = True
-        if(self.hydration < 100 and self.thirsty):
-            self.hydration = 100
+        if(self.hydration < 250 and self.thirsty):
+            self.hydration += 50
             self.thirsty = False
-            await ctx.send("Thanks for the drink uwu")
-            await asyncio.sleep(3600)
+            await ctx.send("Thanks for the drink ~uwu~\nYou should drink something too!")
+            await asyncio.sleep(CONST.HOUR)
             self.thirsty = True
         else:
             await ctx.send("Sowwy I'm not vewy thwisty umu")
 
     @commands.command()
     async def checkhydration(self, ctx):
-        await ctx.send("My hydration is " + str(self.hydration))
+        """How thirsty is ALBot?"""
+        message = "I've had " + str(self.hydration) + "Liters of water today!\n"
+        message += "You and I both need about 2.5 Liters of water per day to stay hydrated. "
+        message += "That being said, we can only absorb .25-.50 liters of water per hour. "
+        message += "So whenever you see me take a drink, you should too~!"
 
     @commands.command()
-    async def begindrinking(self):
-        await self.increasethirst()
+    async def togglehydration(self):
+        """Turn hydration training on/off"""
+        if self.drinking is False:
+            self.drinking = True
+            await self.increasethirst()
+        else:
+            self.drinking = False
 
     async def increasethirst(self):
         """Makes Albot thirstier"""
         while self.drinking:
-            if(self.hydration > 25):
-                self.hydration -= 25
-            await asyncio.sleep(3600)
+            self.hydration = 0
+            await asyncio.sleep(CONST.DAY)
 
 def setup(bot):
     bot.add_cog(Memes(bot))

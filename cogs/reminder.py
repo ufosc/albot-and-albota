@@ -4,8 +4,7 @@ import discord
 import random
 
 from discord.ext import commands
-
-import cogs.CONSTANTS as CONSTANTS
+import cogs.CONSTANTS as CONST
 
 class Reminder(commands.Cog, name='Reminder'):
     """To remind officers and members about things"""
@@ -19,8 +18,8 @@ class Reminder(commands.Cog, name='Reminder'):
             book a room for casual coding.
         """
         await self.bot.wait_until_ready()
-
-        channel = self.bot.get_channel(436916990238785556)
+        
+        channel = self.bot.get_channel(CONST.OFFICER_CHANNEL)
         # NOTE: weekday() returns an int from 0 (monday) to 6 (sunday)
         trigger_day = 2 # 2 = Wednesday
 
@@ -39,9 +38,9 @@ class Reminder(commands.Cog, name='Reminder'):
 
             embed = discord.Embed(
                 title="{info} Reminder".format(
-                    info=CONSTANTS.REACTION_INFO
+                    info=CONST.REACTION_INFO
                 ),
-                colour=discord.Colour(CONSTANTS.EMBED_COLOR_STANDARD),
+                colour=discord.Colour(CONST.EMBED_COLOR_STANDARD),
                 description="Remember to book rooms for Casual Coding!",
             )
 
