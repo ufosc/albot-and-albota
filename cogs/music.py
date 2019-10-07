@@ -1,5 +1,6 @@
 """
-A lot of this code is from the discord.py examples folder: https://github.com/Rapptz/discord.py/blob/rewrite/examples/playlist.py
+A lot of this code is from the discord.py examples folder:
+https://github.com/Rapptz/discord.py/blob/rewrite/examples/playlist.py
 The Youtube_DL code is from: https://github.com/CarlosFdez/SpueBox
 Licenses can be found in the LICENSE file in the root dir
 """
@@ -99,7 +100,7 @@ class Music(commands.Cog, name='Music'):
                 state.audio_player.cancel()
                 if state.voice:
                     self.bot.loop.create_task(state.voice.disconnect())
-            except:
+            except NotImplementedError:
                 pass
 
     @commands.command(no_pm=True)
@@ -220,7 +221,7 @@ class Music(commands.Cog, name='Music'):
             state.audio_player.cancel()
             del self.voice_states[server.id]
             await state.voice.disconnect()
-        except:
+        except discord.ClientException:
             pass
 
     @commands.command(no_pm=True)

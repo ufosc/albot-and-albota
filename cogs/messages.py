@@ -62,7 +62,8 @@ class ALBotFactorialHandler(commands.Cog, name='Factorial Handler'):
             filtered_msg = re.findall('{(?:[0-9]|[1-8](?:[0-9]{1,2})?)!}', msg.content)
             if filtered_msg is not None:
                 group_len = len(filtered_msg)
-                factorial = 'Factorial: `{}! = {}`' if group_len == 1 else 'The following factorials were calculated as:```'
+                factorial = 'Factorial: `{}! = {}`' if group_len == 1 else 'The following factorials were calculated ' \
+                                                                           'as:```'
                 import math
                 if group_len > 1:
                     for i in range(0, group_len):
@@ -74,7 +75,7 @@ class ALBotFactorialHandler(commands.Cog, name='Factorial Handler'):
                     try:
                         num = int((filtered_msg[0].split('!')[0])[1:])
                         await msg.channel.send(factorial.format(num, math.factorial(num)))
-                    except discord.HTTPException as e:
+                    except discord.HTTPException:
                         await msg.channel.send(
                             'Cannot post answer due to excessive character count! Maximum factorial allowed is `801!`.')
 

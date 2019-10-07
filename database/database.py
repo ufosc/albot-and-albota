@@ -1,6 +1,7 @@
 import json
 import sqlite3
-
+# flake8: noqa
+# TODO: remove noqa flag and fix flake8 error output...
 
 class DatabaseInitializeError(BaseException):
     """ Raised when the database can't be initialized properly """
@@ -16,11 +17,10 @@ class SQLCursor:
     """ Cursor object for sqlite3 database.
 
     Manages automatic creation/committing of data.
-    
     To use:
         connection = SQLConnection()
       
-      with SQLCursor(connection) as cursor:
+        with SQLCursor(connection) as cursor:
         do_things_with(cursor)
             if something_is_wrong:
           raise SQLRollback() # Raise this exception to jump out of the
@@ -86,14 +86,11 @@ class SQLConnection:
 
     def table_check(self, schema=None, table_prefix=None):
         """ Verify the table structure in the database
-        
         Parameters:
         schema = dict from schema.json, detailing the expected
                  table schema for the database.
-        
         table_prefix = if present, prepend this to table names as
                        specified in the schema.
-
         Returns:
           0 if everything is normal
           1 if the database is empty
@@ -162,13 +159,13 @@ class SQLConnection:
         else:
             return 0
 
-    def setup_tables(self, force=False):
+    def setup_tables(self, force=False):  # noqa: C901
         """ Sets up the proper tables in the sqlite3 database
-        
         Parameters:
           force = whether to delete all tables and re-initialize. This
                   option is DANGEROUS, and should not be used unless
                   necessary
+                  :param force:
         """
 
         if force:  # delete all present tables
