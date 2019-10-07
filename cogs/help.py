@@ -1,5 +1,7 @@
 from discord.ext import commands
 
+from cogs.CONSTANTS import OFFICER_CHANNEL
+
 
 class Help(commands.Cog, name='Help'):
     """Commands related to help needed"""
@@ -15,7 +17,7 @@ class Help(commands.Cog, name='Help'):
             !question [question to be answered]
         """
         member_name = ctx.message.author.name
-        channel = self.bot.get_channel(436916990238785556)
+        channel = self.bot.get_channel(OFFICER_CHANNEL)
         await channel.send("@everyone\n @" + member_name + " has a question!")
         if (q != ""):
             await channel.send("\"" + q + "\"")

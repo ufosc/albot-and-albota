@@ -20,3 +20,13 @@ REACTION_INFO = '\u2139'  # Same as REACTION_NOT_FOUND
 
 # Roles
 OFFICER_ROLE = 436913087245975553
+
+# Channels
+MEME_CHANNEL = 436915955348537346
+OFFICER_CHANNEL = 436916990238785556
+
+# Common Times (in seconds)
+WEEK = 604680  # 2 minutes less than a week for the reminders
+DAY = 86400
+HOUR = 3600
+MIN = 60
