@@ -1,9 +1,11 @@
 import discord
-from discord.utils import get
 from discord.ext import commands
+from discord.utils import get
+
 
 class Projects(commands.Cog, name='Projects'):
     """Commands dealing with the different projects we are working on"""
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -48,17 +50,22 @@ class Projects(commands.Cog, name='Projects'):
     @commands.command()
     async def list(self, ctx):
         """Print the list of the current projects we are working on."""
-        embed=discord.Embed(title="Muddy Swamp", url="https://github.com/ufosc/MuddySwamp", description="A UF themed python MUD game.", color=0x00630c)
+        embed = discord.Embed(title="Muddy Swamp", url="https://github.com/ufosc/MuddySwamp",
+                              description="A UF themed python MUD game.", color=0x00630c)
         embed.add_field(name="Join using", value="!join muddyswamp", inline=True)
         await ctx.send(embed=embed)
 
-        embed=discord.Embed(title="Marston Vs West", url="https://github.com/ufosc/marston-vs-west", description="A HTML5 smashbros-esque game fitting our libraries against each other.", color=0xff0036)
+        embed = discord.Embed(title="Marston Vs West", url="https://github.com/ufosc/marston-vs-west",
+                              description="A HTML5 smashbros-esque game fitting our libraries against each other.",
+                              color=0xff0036)
         embed.add_field(name="Join using", value="!join mvw", inline=True)
         await ctx.send(embed=embed)
 
-        embed=discord.Embed(title="Club Website", url="https://github.com/ufosc/club-website", description="Our club website made using basic HTML, CSS, and JS.", color=0x00ecff)
+        embed = discord.Embed(title="Club Website", url="https://github.com/ufosc/club-website",
+                              description="Our club website made using basic HTML, CSS, and JS.", color=0x00ecff)
         embed.add_field(name="Join using", value="!join clubsite", inline=True)
         await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Projects(bot))

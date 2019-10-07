@@ -1,8 +1,9 @@
 import discord
-import typing
 from discord.ext import commands
 
 from database.database import SQLCursor, SQLConnection
+
+
 # TODO: store Officer objects locally during bot lifespan to avoid excess database querying
 
 class Government(commands.Cog, name='Government'):
@@ -20,7 +21,7 @@ class Government(commands.Cog, name='Government'):
     async def government(self, ctx):
         """The root command for managing and checking government/officer information."""
         await ctx.message.channel.send(
-                    'List of useable commands for the parent command: **eboard**\n\n**eboard seats** - shows a list of all government positions and their corresponding officers.\n\n**eboard position \"<position>\"** - shows the current officer that fills this position and a description of the position.')
+            'List of useable commands for the parent command: **eboard**\n\n**eboard seats** - shows a list of all government positions and their corresponding officers.\n\n**eboard position \"<position>\"** - shows the current officer that fills this position and a description of the position.')
 
     @government.group(invoke_without_command=True)
     @commands.guild_only()
@@ -32,10 +33,14 @@ class Government(commands.Cog, name='Government'):
             msg += position['position'].replace('_', " ").capitalize() + ' - '
             try:
                 if ',' in position['officer']:
-                    officers = [str(ctx.message.guild.get_member(int(member_id))) for member_id in position['officer'].split(',')]
+                    officers = [str(ctx.message.guild.get_member(int(member_id))) for member_id in
+                                position['officer'].split(',')]
                     msg += ', '.join(officers) + '\n'
                 else:
-                    msg += (str(ctx.message.guild.get_member(int(position['officer']))) if position['officer'] is not None and position['officer'].strip() is not 'Vacant' else 'Vacant') + '\n'
+                    msg += (str(ctx.message.guild.get_member(int(position['officer']))) if position[
+                                                                                               'officer'] is not None and
+                                                                                           position[
+                                                                                               'officer'].strip() is not 'Vacant' else 'Vacant') + '\n'
             except KeyError as e:
                 msg += 'Vacant\n'
         if msg is not '':
@@ -46,7 +51,8 @@ class Government(commands.Cog, name='Government'):
     async def admin(self, ctx):
         """The admin root command meant to handle all admin subcommands."""
         if ctx.message.author.top_role.name.lower() == 'officer':
-                await ctx.message.channel.send('List of useable commands for the parent command: **admin**\n\n **eboard admin auto** - updates the new seats given current election data.\n\n**eboard admin set <position> <User#0000>** - assigns a position to target user.\n\n**eboard admin remove <position> <User#0000>** - remove a target user from their position.\n\n**eboard admin list** - lists the positions in the SQLite table.')
+            await ctx.message.channel.send(
+                'List of useable commands for the parent command: **admin**\n\n **eboard admin auto** - updates the new seats given current election data.\n\n**eboard admin set <position> <User#0000>** - assigns a position to target user.\n\n**eboard admin remove <position> <User#0000>** - remove a target user from their position.\n\n**eboard admin list** - lists the positions in the SQLite table.')
 
     @government.group(name='position')
     @commands.guild_only()
@@ -60,17 +66,21 @@ class Government(commands.Cog, name='Government'):
                 if row:
                     plural = False
                     if row[1] is not None and ',' in row[1]:
-                        officers = [str(ctx.message.guild.get_member(int(member_id))) for member_id in row[1].split(',')]
+                        officers = [str(ctx.message.guild.get_member(int(member_id))) for member_id in
+                                    row[1].split(',')]
                         officers = ', '.join(officers)
                         plural = True
                     else:
-                        officers = (str(ctx.message.guild.get_member(int(row[1]))) if row[1] is not None and row[1].strip() is not '' else 'Vacant')
+                        officers = (str(ctx.message.guild.get_member(int(row[1]))) if row[1] is not None and row[
+                            1].strip() is not '' else 'Vacant')
                     description = row[0]
-                    await ctx.message.channel.send('The current _{}: _{}_'.format(pos + ('s_ are' if plural else '_ is'), officers))
+                    await ctx.message.channel.send(
+                        'The current _{}: _{}_'.format(pos + ('s_ are' if plural else '_ is'), officers))
                     if description is not None and description.strip() is not '':
                         await ctx.message.channel.send('Description: \n```{}```'.format(description))
         else:
-            await ctx.channel.send('Invalid position. Here is a list of valid positions: ' + ', '.join(self.positions).replace('_', ' '))
+            await ctx.channel.send(
+                'Invalid position. Here is a list of valid positions: ' + ', '.join(self.positions).replace('_', ' '))
 
     @admin.group()
     @commands.guild_only()
@@ -87,7 +97,8 @@ class Government(commands.Cog, name='Government'):
         if ctx.message.author.top_role.name.lower() == 'officer':
             with SQLCursor(self.db) as cur:
                 cur.execute('UPDATE govt_info SET officer = Null;')
-                await ctx.message.channel.send('Successfully cleared all officers from all positions in the SQLite table.')
+                await ctx.message.channel.send(
+                    'Successfully cleared all officers from all positions in the SQLite table.')
         else:
             await ctx.message.channel.send('Hey! You do not have permission to do that.')
 
@@ -96,23 +107,28 @@ class Government(commands.Cog, name='Government'):
     async def auto(self, ctx):
         """Automatically update roles and officer positions based on election results."""
         if ctx.message.author.top_role.name.lower() == 'officer':
-            await ctx.message.channel.send('Still working on integration with the election results. Maybe have a command to link to an elections database?')
+            await ctx.message.channel.send(
+                'Still working on integration with the election results. Maybe have a command to link to an elections database?')
         else:
             await ctx.message.channel.send('Hey! You do not have permission to do that.')
 
     @admin.group()
     @commands.guild_only()
-    async def description(self, ctx, pos ='', desc=''):
+    async def description(self, ctx, pos='', desc=''):
         if ctx.message.author.top_role.name.lower() == 'officer':
             if pos.strip() is not '':
                 with SQLCursor(self.db) as cur:
                     cur.execute('UPDATE govt_info SET description = ? WHERE position = ?;', (desc, pos))
                     if desc.strip() is '':
-                        await ctx.message.channel.send('Successfully cleared the description for position: **{}**'.format(pos))
+                        await ctx.message.channel.send(
+                            'Successfully cleared the description for position: **{}**'.format(pos))
                     else:
-                        await ctx.message.channel.send('Successfully set a description for position: **{}**\n\nThe description is as follows:\n```{}```'.format(pos, desc))
+                        await ctx.message.channel.send(
+                            'Successfully set a description for position: **{}**\n\nThe description is as follows:\n```{}```'.format(
+                                pos, desc))
             else:
-                await ctx.message.channel.send('Invalid format, try: **eboard admin description <position> \"<desc>\"**')
+                await ctx.message.channel.send(
+                    'Invalid format, try: **eboard admin description <position> \"<desc>\"**')
         else:
             await ctx.message.channel.send('Hey! You do not have permission to do that.')
 
@@ -122,7 +138,8 @@ class Government(commands.Cog, name='Government'):
         if ctx.message.author.top_role.name.lower() == 'officer':
             member_id = user.id
             if position is None or member_id is None:
-                await ctx.message.channel.send('Invalid command format, try: `eboard admin set <position> <@User#0000>`')
+                await ctx.message.channel.send(
+                    'Invalid command format, try: `eboard admin set <position> <@User#0000>`')
             else:
                 with SQLCursor(self.db) as cur:
                     cur.execute('SELECT officer FROM govt_info WHERE position = ?;', (position,))
@@ -136,7 +153,8 @@ class Government(commands.Cog, name='Government'):
                         officers = str(member_id)
 
                     cur.execute('UPDATE govt_info SET officer = ? WHERE position = ?;', (officers, position))
-                    await ctx.message.channel.send('Successfully added **{}** to the **{}** position.'.format(str(user), position))
+                    await ctx.message.channel.send(
+                        'Successfully added **{}** to the **{}** position.'.format(str(user), position))
         else:
             await ctx.message.channel.send('Hey! You do not have permission to do that.')
 
@@ -157,7 +175,8 @@ class Government(commands.Cog, name='Government'):
                         elif officers[len(officers) - 1:len(officers)] == ',':
                             officers = officers[0:len(officers) - 1]
                         cur.execute('UPDATE govt_info SET officer = ? WHERE position = ?;', (officers, position))
-                        await ctx.message.channel.send('Successfully removed **{}** from the **{}** position.'.format(str(user), position))
+                        await ctx.message.channel.send(
+                            'Successfully removed **{}** from the **{}** position.'.format(str(user), position))
         else:
             await ctx.message.channel.send('Hey! You do not have permission to do that.')
 

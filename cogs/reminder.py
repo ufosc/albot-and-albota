@@ -1,8 +1,11 @@
-import discord
-import random
 import datetime
 import asyncio
 from discord.ext import commands
+import asyncio
+import datetime
+
+from discord.ext import commands
+
 
 class Reminder(commands.Cog, name='Reminder'):
     """To remind officers and members about things"""

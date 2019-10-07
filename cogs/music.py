@@ -4,14 +4,16 @@ The Youtube_DL code is from: https://github.com/CarlosFdez/SpueBox
 Licenses can be found in the LICENSE file in the root dir
 """
 
-import discord
-from discord.ext import commands
 import asyncio
+
+import discord
 import youtube_dl
+from discord.ext import commands
+
 
 class VoiceEntry:
-
     """A class that represents a song that can be played"""
+
     def __init__(self, message, player, title, uploader, duration):
         self.requester = message.author
         self.channel = message.channel
@@ -26,15 +28,17 @@ class VoiceEntry:
             fmt = fmt + ' [length: {0[0]}m {0[1]}s]'.format(divmod(self.duration, 60))
         return fmt.format(self.title, self.uploader, self.requester)
 
+
 class VoiceState:
     """Holds the queued song and players for a guild server"""
+
     def __init__(self, bot):
         self.current = None
         self.voice = None
         self.bot = bot
         self.play_next_song = asyncio.Event()
         self.songs = asyncio.Queue()
-        self.skip_votes = set() # a set of user_ids that voted
+        self.skip_votes = set()  # a set of user_ids that voted
         self.audio_player = self.bot.loop.create_task(self.audio_player_task())
 
     def is_playing(self):
@@ -66,10 +70,12 @@ class VoiceState:
             self.voice.play(self.current.player)
             await self.play_next_song.wait()
 
+
 class Music(commands.Cog, name='Music'):
     """Voice related commands.
     Works in multiple servers at once.
     """
+
     def __init__(self, bot):
         self.bot = bot
         self.voice_states = {}
@@ -97,7 +103,7 @@ class Music(commands.Cog, name='Music'):
                 pass
 
     @commands.command(no_pm=True)
-    async def vjoin(self, ctx, *, channel : discord.VoiceChannel):
+    async def vjoin(self, ctx, *, channel: discord.VoiceChannel):
         """Joins a voice channel."""
         try:
             await self.create_voice_client(channel)
@@ -126,7 +132,7 @@ class Music(commands.Cog, name='Music'):
         return True
 
     @commands.command(no_pm=True)
-    async def play(self, ctx, *, song : str):
+    async def play(self, ctx, *, song: str):
         """Plays a song.
         If there is a song currently in the queue, then it is
         queued until the next song is done playing.
@@ -161,7 +167,7 @@ class Music(commands.Cog, name='Music'):
             results = [(e['title'], e['url'], e['uploader'], e['duration']) for e in entries]
 
             player = discord.FFmpegPCMAudio(results[0][1])
-            player = discord.PCMVolumeTransformer(player) # Transforms the player so volume can be changed
+            player = discord.PCMVolumeTransformer(player)  # Transforms the player so volume can be changed
         except Exception as e:
             fmt = 'An error occurred while processing this request: ```py\n{}: {}\n```'
             await ctx.send(fmt.format(type(e).__name__, e))
@@ -172,7 +178,7 @@ class Music(commands.Cog, name='Music'):
             await state.songs.put(entry)
 
     @commands.command(no_pm=True)
-    async def volume(self, ctx, value : int):
+    async def volume(self, ctx, value: int):
         """Sets the volume of the currently playing song."""
 
         state = self.get_voice_state(ctx.message.guild)
@@ -253,6 +259,7 @@ class Music(commands.Cog, name='Music'):
         else:
             skip_count = len(state.skip_votes)
             await ctx.send('Now playing {} [skips: {}/3]'.format(state.current, skip_count))
+
 
 def setup(bot):
     if not discord.opus.is_loaded():

@@ -1,4 +1,3 @@
-import sys
 import traceback
 import math
 
@@ -8,6 +7,16 @@ from discord.ext import commands
 import cogs.CONSTANTS as CONSTANTS
 from database.database import SQLCursor, SQLConnection
 from cogs.messages import track
+import math
+import traceback
+
+import discord
+from discord.ext import commands
+
+import cogs.CONSTANTS as CONSTANTS
+from cogs.messages import track
+from database.database import SQLCursor, SQLConnection
+
 
 class ALBotErrorHandlers(commands.Cog, name='Error Handler'):
     """ Handles errors """

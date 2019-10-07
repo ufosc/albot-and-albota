@@ -4,8 +4,10 @@ from discord.ext import commands
 import cogs.CONSTANTS as CONSTANTS
 from database.database import SQLCursor, SQLConnection
 
+
 class ALBotMessageDeletionHandlers(commands.Cog, name='Message Deletion Handlers'):
     """ Functions for handling tracked messages """
+
     def __init__(self, bot, db):
         self.bot = bot
         self.db = db
@@ -32,6 +34,7 @@ class ALBotMessageDeletionHandlers(commands.Cog, name='Message Deletion Handlers
                     relevant_message = await self.bot.get_channel(payload.channel_id).fetch_message(payload.message_id)
                     await relevant_message.delete()
 
+
 async def track(message, author=None):
     """ Marks a message in the database so that it will be automatically
         deleted if the sender or an admin reacts with the 'trash' emoji
@@ -42,7 +45,9 @@ async def track(message, author=None):
     if author:
         aid = author.id
     with SQLCursor(sql_db) as cur:
-                cur.execute("INSERT INTO tracked_messages (messid, sender_uid, track_time) VALUES (?, ?, ?);", (message.id, aid, message.created_at))
+        cur.execute("INSERT INTO tracked_messages (messid, sender_uid, track_time) VALUES (?, ?, ?);",
+                    (message.id, aid, message.created_at))
+
 
 class ALBotFactorialHandler(commands.Cog, name='Factorial Handler'):
 
@@ -70,7 +75,9 @@ class ALBotFactorialHandler(commands.Cog, name='Factorial Handler'):
                         num = int((filtered_msg[0].split('!')[0])[1:])
                         await msg.channel.send(factorial.format(num, math.factorial(num)))
                     except discord.HTTPException as e:
-                        await msg.channel.send('Cannot post answer due to excessive character count! Maximum factorial allowed is `801!`.')
+                        await msg.channel.send(
+                            'Cannot post answer due to excessive character count! Maximum factorial allowed is `801!`.')
+
 
 def setup(bot):
     bot.add_cog(ALBotMessageDeletionHandlers(bot, SQLConnection()))

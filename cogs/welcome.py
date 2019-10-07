@@ -1,10 +1,9 @@
-import discord
-from discord.utils import get
 from discord.ext import commands
-import config
+
 
 class Welcome(commands.Cog, name="Welcome"):
     """To automatically welcome new members to the server"""
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -15,6 +14,7 @@ class Welcome(commands.Cog, name="Welcome"):
             await member.create_dm()
         dm_channel = member.dm_channel
         await dm_channel.send(fmt.format(member))
+
 
 def setup(bot):
     bot.add_cog(Welcome(bot))
