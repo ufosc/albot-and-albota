@@ -4,7 +4,6 @@ from discord.ext import commands
 
 import cogs.CONSTANTS as CONSTANTS
 import config
-from github import Github
 
 """Cogs to load when the bot first starts"""
 startup_cogs = [
@@ -35,10 +34,6 @@ async def on_ready():
     global bot_url
     print('Logged in as "{name}" with id {id}'.format(name=bot.user.name,id=bot.user.id))
     print('Invite URL: {iurl}'.format(iurl=bot_url.format(bot.user.id)))
-    git = Github(config.GITHUB_TOKEN)
-    org = git.get_organization('ufosc')
-    print('Successfully connected to the \'%s\' GitHub organization using PyGithub.' % org.login)
-    print('-----')
     await bot.change_presence(activity=discord.Game(name="Destroying propritary software"))
 
 
