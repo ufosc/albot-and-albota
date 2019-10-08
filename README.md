@@ -36,11 +36,23 @@ TODO
 
 ### Setting up config
 
-Create a file named `config.py` and add your discord token
+Create a file named `config.py` and add the following:
 
 ```py
-ALBOT_TOKEN  = "PASTE_TOKEN_HERE"
+# Tokens
+ALBOT_TOKEN = "Add Your Discord Token" # Required
+GITHUB_TOKEN = "Add your GitHub Token" # Only if working with git integration
+
+# Roles
+OFFICER_ROLE = 000000000000000000
+
+# Channels
+MEME_CHANNEL    = 000000000000000000 
+OFFICER_CHANNEL = 000000000000000000
+LEADERBOARD     = 000000000000000000
 ```
+
+Make sure to replace the values above with your own tokens and IDs. For more information on how to get IDs, please go to this [tutorial](https://github.com/Chikachi/DiscordIntegration/wiki/How-to-get-a-token-and-channel-ID-for-Discord).
 
 ### Running the bot
 
