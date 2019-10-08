@@ -1,12 +1,15 @@
 import asyncio
+
 import discord
 from discord.ext import commands
 
 import cogs.CONSTANTS as CONSTANTS
 from database.database import SQLCursor, SQLConnection
 
+
 class ALBotMessageDeletionHandlers(commands.Cog, name='Message Deletion Handlers'):
     """ Functions for handling tracked messages """
+
     def __init__(self, bot, db):
         self.bot = bot
         self.db = db
@@ -33,6 +36,7 @@ class ALBotMessageDeletionHandlers(commands.Cog, name='Message Deletion Handlers
                     relevant_message = await self.bot.get_channel(payload.channel_id).fetch_message(payload.message_id)
                     await relevant_message.delete()
 
+
 async def track(message, author=None):
     """ Marks a message in the database so that it will be automatically
         deleted if the sender or an admin reacts with the 'trash' emoji
@@ -43,7 +47,9 @@ async def track(message, author=None):
     if author:
         aid = author.id
     with SQLCursor(sql_db) as cur:
-                cur.execute("INSERT INTO tracked_messages (messid, sender_uid, track_time) VALUES (?, ?, ?);", (message.id, aid, message.created_at))
+        cur.execute("INSERT INTO tracked_messages (messid, sender_uid, track_time) VALUES (?, ?, ?);",
+                    (message.id, aid, message.created_at))
+
 
 class ALBotFactorialHandler(commands.Cog, name='Factorial Handler'):
 
@@ -58,7 +64,8 @@ class ALBotFactorialHandler(commands.Cog, name='Factorial Handler'):
             filtered_msg = re.findall('{(?:[0-9]|[1-8](?:[0-9]{1,2})?)!}', msg.content)
             if filtered_msg is not None:
                 group_len = len(filtered_msg)
-                factorial = 'Factorial: `{}! = {}`' if group_len == 1 else 'The following factorials were calculated as:```'
+                factorial = 'Factorial: `{}! = {}`' if group_len == 1 else 'The following factorials were calculated ' \
+                                                                           'as:```'
                 import math
                 if group_len > 1:
                     for i in range(0, group_len):
@@ -70,12 +77,14 @@ class ALBotFactorialHandler(commands.Cog, name='Factorial Handler'):
                     try:
                         num = int((filtered_msg[0].split('!')[0])[1:])
                         await msg.channel.send(factorial.format(num, math.factorial(num)))
-                    except discord.HTTPException as e:
-                        await msg.channel.send('Cannot post answer due to excessive character count! Maximum factorial allowed is `801!`.')
+                    except discord.HTTPException:
+                        await msg.channel.send(
+                            'Cannot post answer due to excessive character count! Maximum factorial allowed is `801!`.')
 
 
 class ALBotMessageClear(commands.Cog, name='Message Clear'):
     """Functions for handling message deletion in channels"""
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -87,7 +96,8 @@ class ALBotMessageClear(commands.Cog, name='Message Clear'):
             await ctx.channel.send(content="Please input a number larger than zero")
             return
 
-        # checks the message reaction to see if the user confirms or cancels the command and returns True or False respectively
+        # checks the message reaction to see if the user confirms or cancels the command and returns True or False
+        # respectively
         async def confirms(self, ctx, user, bot_msg):
             while True:
 
@@ -107,11 +117,12 @@ class ALBotMessageClear(commands.Cog, name='Message Clear'):
             user_msg = ctx.channel.last_message
 
             # warns the user and confirms the clear command
-            await ctx.channel.send("WARNING: You are about to delete {} messages, are you sure you want to do this?".format(a_number))
+            await ctx.channel.send(
+                "WARNING: You are about to delete {} messages, are you sure you want to do this?".format(a_number))
             bot_msg = ctx.channel.last_message
 
-            #adds reactions to the bot message
-            reactions = ["✅","❌"]
+            # adds reactions to the bot message
+            reactions = ["✅", "❌"]
             for emoji in reactions:
                 await bot_msg.add_reaction(emoji)
 
@@ -137,6 +148,7 @@ class ALBotMessageClear(commands.Cog, name='Message Clear'):
                     await message.delete()
                     await asyncio.sleep(0.4)
             await ctx.channel.send(content='@{} Successfully deleted {} messages'.format(ctx.author, int(a_number)))
+
 
 def setup(bot):
     bot.add_cog(ALBotMessageDeletionHandlers(bot, SQLConnection()))

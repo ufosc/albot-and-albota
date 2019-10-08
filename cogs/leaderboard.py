@@ -1,8 +1,9 @@
 import asyncio
 import datetime
 
-from github import Github
+from discord.ext import commands
 
+from github import Github
 from config import GITHUB_TOKEN
 from cogs.CONSTANTS import LEADERBOARD
 
@@ -14,9 +15,11 @@ from database.database import SQLConnection, SQLCursor
 # TODO: Save info in the db
 # TODO: Allow members to register their github login so that they will be @'d
 # TODO: Track commits not on main branch
+# TODO: In progress git integration, incomplete work
 
 class Leaderboard(commands.Cog, name='Leaderboard'):
     """Handles GitHub leaderboard tracking for GitHub users."""
+
     def __init__(self, bot, db, git):
         self.bot = bot
         self.db = db
@@ -71,4 +74,3 @@ class Leaderboard(commands.Cog, name='Leaderboard'):
 def setup(bot):
     git = Github(GITHUB_TOKEN)
     bot.add_cog(Leaderboard(bot, SQLConnection(), git))
-
