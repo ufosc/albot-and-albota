@@ -1,4 +1,7 @@
+import io
 import textwrap
+from contextlib import redirect_stdout
+
 import discord
 from discord.ext import commands
 
@@ -7,6 +10,7 @@ import io
 
 from config import OFFICER_ROLE
 
+
 class Admin(commands.Cog, name='Admin'):
 
     def __init__(self, bot):
@@ -14,7 +18,7 @@ class Admin(commands.Cog, name='Admin'):
 
     @commands.command(hidden=True)
     @commands.has_role(OFFICER_ROLE)
-    async def load(self, ctx, extension_name : str):
+    async def load(self, ctx, extension_name: str):
         """Loads an extension."""
         try:
             if extension_name.startswith("cogs."):
@@ -28,7 +32,7 @@ class Admin(commands.Cog, name='Admin'):
 
     @commands.command(hidden=True)
     @commands.has_role(OFFICER_ROLE)
-    async def unload(self, ctx, extension_name : str):
+    async def unload(self, ctx, extension_name: str):
         """Unloads an extension."""
         if extension_name.startswith("cogs."):
             self.bot.unload_extension(extension_name)
@@ -38,7 +42,7 @@ class Admin(commands.Cog, name='Admin'):
 
     @commands.command(hidden=True)
     @commands.has_role(OFFICER_ROLE)
-    async def reload(self, ctx, extension_name : str):
+    async def reload(self, ctx, extension_name: str):
         """Unloads and then loads an extension"""
         try:
             if extension_name.startswith("cogs."):
@@ -57,7 +61,7 @@ class Admin(commands.Cog, name='Admin'):
 
     @commands.command(hidden=True, name="eval")
     @commands.is_owner()
-    async def admin_eval(self, ctx, *, cmd : str):
+    async def admin_eval(self, ctx, *, cmd: str):
         """Evaluates Python code only if the executor is hjarrell"""
         env = {
             'bot': self.bot,
@@ -89,6 +93,7 @@ class Admin(commands.Cog, name='Admin'):
                     await ctx.send("```py\n{}\n```".format(value))
             else:
                 await ctx.send("```py\n{}{}\n```".format(value, ret))
+
 
 def setup(bot):
     bot.add_cog(Admin(bot))

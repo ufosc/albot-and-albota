@@ -1,14 +1,17 @@
 import asyncio
-import discord
 import random
+
+import discord
 import praw
 from discord.ext import commands
 
 import config
 import cogs.CONSTANTS as CONST
 
+
 class Memes(commands.Cog, name='Memes'):
     """All meme related commands"""
+
     def __init__(self, bot):
         self.bot = bot
         self.going_for_gold = False
@@ -50,7 +53,7 @@ class Memes(commands.Cog, name='Memes'):
         await self.bot.change_presence(activity=discord.Game(name=playing))
 
     @commands.command()
-    async def say(self, ctx, *, phrase : str):
+    async def say(self, ctx, *, phrase: str):
         """Has the bot say something"""
         await ctx.send(phrase)
 
@@ -69,8 +72,8 @@ class Memes(commands.Cog, name='Memes'):
     async def forgetkarma(self, ctx):
         """What's Reddit?"""
         await ctx.send("You are disabling daily karma grabbing from /r/programmerhumor")
-        self.going_for_gold = False             
-        
+        self.going_for_gold = False
+
     async def dailykarma(self):
         """Steals the top Reddit post for the day from /r/ph"""
         channel = self.bot.get_channel(config.MEME_CHANNEL)
@@ -126,6 +129,7 @@ class Memes(commands.Cog, name='Memes'):
         while self.drinking:
             self.hydration = 0
             await asyncio.sleep(CONST.DAY)
+
 
 def setup(bot):
     bot.add_cog(Memes(bot))
