@@ -25,6 +25,7 @@ OFFICER_ROLE = 436913087245975553
 # Channels
 MEME_CHANNEL    = 436915955348537346
 OFFICER_CHANNEL = 436916990238785556
+LEADERBOARD     = 420449057144832000
 
 # Common Times (in seconds)
 WEEK = 604680                    # 2 minutes less than a week for the reminders

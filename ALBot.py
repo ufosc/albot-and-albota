@@ -18,7 +18,8 @@ startup_cogs = [
     "cogs.welcome",
     "cogs.help",
     "cogs.reminder",
-    "cogs.government"
+    "cogs.government",
+    "cogs.leaderboard"
 ]
 
 # list the access token in your config.py
@@ -34,7 +35,6 @@ async def on_ready():
     global bot_url
     print('Logged in as "{name}" with id {id}'.format(name=bot.user.name,id=bot.user.id))
     print('Invite URL: {iurl}'.format(iurl=bot_url.format(bot.user.id)))
-    global git
     git = Github(config.GITHUB_TOKEN)
     org = git.get_organization('ufosc')
     print('Successfully connected to the \'%s\' GitHub organization using PyGithub.' % org.login)
