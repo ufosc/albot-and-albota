@@ -4,6 +4,7 @@ import random
 import praw
 from discord.ext import commands
 
+import config
 import cogs.CONSTANTS as CONST
 
 class Memes(commands.Cog, name='Memes'):
@@ -35,7 +36,7 @@ class Memes(commands.Cog, name='Memes'):
         await ctx.send(file=discord.File('alligator.jpg'))
 
     @commands.command()
-    @commands.has_role(CONST.OFFICER_ROLE)
+    @commands.has_role(config.OFFICER_ROLE)
     async def randplaying(self, ctx):
         """Randomly changes the playing text"""
         new_playing = random.choice(self.playing_strings)
@@ -43,7 +44,7 @@ class Memes(commands.Cog, name='Memes'):
         await ctx.send('I am now {}'.format(new_playing))
 
     @commands.command()
-    @commands.has_role(CONST.OFFICER_ROLE)
+    @commands.has_role(config.OFFICER_ROLE)
     async def setplaying(self, ctx, *, playing: str):
         """Lets an officer set the playing text"""
         await self.bot.change_presence(activity=discord.Game(name=playing))
@@ -72,7 +73,7 @@ class Memes(commands.Cog, name='Memes'):
         
     async def dailykarma(self):
         """Steals the top Reddit post for the day from /r/ph"""
-        channel = self.bot.get_channel(CONST.MEME_CHANNEL)
+        channel = self.bot.get_channel(config.MEME_CHANNEL)
         while self.going_for_gold:
             message = ""
             reddit = praw.Reddit('bot1')

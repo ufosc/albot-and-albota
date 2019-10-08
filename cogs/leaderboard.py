@@ -3,8 +3,7 @@ import datetime
 
 from github import Github
 
-from config import GITHUB_TOKEN
-from cogs.CONSTANTS import LEADERBOARD
+from config import GITHUB_TOKEN, LEADERBOARD
 
 import discord
 from discord.ext import commands

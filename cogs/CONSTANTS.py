@@ -1,4 +1,3 @@
-
 # Misc
 ERROR_REPORT_URL = 'https://github.com/ufosc/albot-and-albot'
 BOT_NAME = 'ALBot'
@@ -18,14 +17,6 @@ REACTION_DENY      = '\u26d4'     #
 REACTION_ERROR     = '\u26a0'     # 
 REACTION_NOT_FOUND = '\u2139'     # Same as REACTION_INFO
 REACTION_INFO      = '\u2139'     # Same as REACTION_NOT_FOUND
-
-# Roles
-OFFICER_ROLE = 436913087245975553
-
-# Channels
-MEME_CHANNEL    = 436915955348537346
-OFFICER_CHANNEL = 436916990238785556
-LEADERBOARD     = 420449057144832000
 
 # Common Times (in seconds)
 WEEK = 604680                    # 2 minutes less than a week for the reminders
