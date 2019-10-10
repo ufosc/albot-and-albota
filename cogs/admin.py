@@ -5,7 +5,10 @@ from contextlib import redirect_stdout
 import discord
 from discord.ext import commands
 
-from cogs.CONSTANTS import OFFICER_ROLE
+from contextlib import redirect_stdout
+import io
+
+from config import OFFICER_ROLE
 
 
 class Admin(commands.Cog, name='Admin'):

@@ -1,6 +1,6 @@
 from discord.ext import commands
 
-from cogs.CONSTANTS import OFFICER_CHANNEL
+from config import OFFICER_CHANNEL
 
 
 class Help(commands.Cog, name='Help'):

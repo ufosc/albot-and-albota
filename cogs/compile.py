@@ -1,8 +1,8 @@
 import json
 
 import requests
-from CONSTANTS import OFFICER_ROLE
 from discord.ext import commands
+from config import OFFICER_ROLE
 
 
 class Compile(commands.Cog, name='Compile'):

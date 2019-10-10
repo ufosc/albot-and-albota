@@ -3,7 +3,7 @@ import datetime
 
 import discord
 from discord.ext import commands
-
+from config import OFFICER_CHANNEL
 import cogs.CONSTANTS as CONST
 
 
@@ -20,8 +20,8 @@ class Reminder(commands.Cog, name='Reminder'):
             book a room for casual coding.
         """
         await self.bot.wait_until_ready()
-
-        channel = self.bot.get_channel(CONST.OFFICER_CHANNEL)
+        
+        channel = self.bot.get_channel(OFFICER_CHANNEL)
         # NOTE: weekday() returns an int from 0 (monday) to 6 (sunday)
         trigger_day = 2  # 2 = Wednesday
 
