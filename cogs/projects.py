@@ -64,21 +64,24 @@ class Projects(commands.Cog, name='Projects'):
     @commands.command()
     async def leave(self, ctx, *, roleName: str = None):
         """Remove a given role from a user"""
-        if roleName != None:
-            if roleName.lower() in CONSTANTS.ALUMNUS:
-                role = discord.utils.get(ctx.guild.roles, name="alumnus")
-            elif roleName.lower() in CONSTANTS.MUDDY:
-                role = discord.utils.get(ctx.guild.roles, name="muddy-swamp")
-            elif roleName.lower() in CONSTANTS.WEBSITE:
-                role = discord.utils.get(ctx.guild.roles, name="club-website")
-            elif roleName.lower() in CONSTANTS.MVW:
-                role = discord.utils.get(ctx.guild.roles, name="marston-vs-west")
-            elif roleName.lower() in CONSTANTS.ALBOT:
-                role = discord.utils.get(ctx.guild.roles, name="bot-dev")
-            await self.leave_role(ctx, role)
-        else:
-            roles = [role for role in ctx.author.roles if role.name != "@everyone"]
-            await self.leave_all_roles(ctx, roles)
+        try:
+            if roleName != None:
+                if roleName.lower() in CONSTANTS.ALUMNUS:
+                    role = discord.utils.get(ctx.guild.roles, name="alumnus")
+                elif roleName.lower() in CONSTANTS.MUDDY:
+                    role = discord.utils.get(ctx.guild.roles, name="muddy-swamp")
+                elif roleName.lower() in CONSTANTS.WEBSITE:
+                    role = discord.utils.get(ctx.guild.roles, name="club-website")
+                elif roleName.lower() in CONSTANTS.MVW:
+                    role = discord.utils.get(ctx.guild.roles, name="marston-vs-west")
+                elif roleName.lower() in CONSTANTS.ALBOT:
+                    role = discord.utils.get(ctx.guild.roles, name="bot-dev")
+                await self.leave_role(ctx, role)
+            else:
+                roles = [role for role in ctx.author.roles if role.name != "@everyone"]
+                await self.leave_all_roles(ctx, roles)
+        except UnboundLocalError:
+            await ctx.send(f"{roleName} role doesn't exist")
 
     async def leave_role(self, ctx, role):
         """Remove given users role """
