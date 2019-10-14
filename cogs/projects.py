@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 from discord.utils import get
 
+import cogs.CONSTANTS as CONSTANTS
+
 
 class Projects(commands.Cog, name='Projects'):
     """Commands dealing with the different projects we are working on"""
@@ -10,7 +12,11 @@ class Projects(commands.Cog, name='Projects'):
         self.bot = bot
 
     async def alumnus(self, ctx):
-        """"Add the Alumnus role to the user"""
+        """"Add the Alumnus role to the user and remove other roles"""
+        if ctx.author.roles and (len(ctx.author.roles) > 1):
+            roles = [role for role in ctx.author.roles if role.name not in ["@everyone", "alumnus"]]
+            await self.leave_all_roles(ctx, roles)
+
         role = discord.utils.get(ctx.guild.roles, name="alumnus")
         await ctx.author.add_roles(role)
         await ctx.send("Eway elcomway youway otay hetay alumni ounglay")
@@ -44,16 +50,49 @@ class Projects(commands.Cog, name='Projects'):
     @commands.command()
     async def join(self, ctx, *, roleName: str):
         """Add a role to a user"""
-        if roleName.lower() in ["alumni", "alumnus", "alumna", "alum", "stultus", "stulta"]:
+        if roleName.lower() in CONSTANTS.ALUMNUS:
             await self.alumnus(ctx)
-        elif roleName.lower() in ["muddy", "muddy swamp", "muddyswamp", "muddy-swamp", "MUD"]:
+        elif roleName.lower() in CONSTANTS.MUDDY:
             await self.muddy(ctx)
-        elif roleName.lower() in ["website", "club site", "club website", "clubwebsite", "clubsite"]:
+        elif roleName.lower() in CONSTANTS.WEBSITE:
             await self.website(ctx)
-        elif roleName.lower() in ["mvw", "marstonvswest", "marston vs west", "marston v west"]:
+        elif roleName.lower() in CONSTANTS.MVW:
             await self.mvw(ctx)
-        elif roleName.lower() in ["bot", "albot"]:
+        elif roleName.lower() in CONSTANTS.ALBOT:
             await self.albot(ctx)
+
+    @commands.command()
+    async def leave(self, ctx, *, roleName: str = None):
+        """Remove a given role from a user"""
+        try:
+            if roleName != None:
+                if roleName.lower() in CONSTANTS.ALUMNUS:
+                    role = discord.utils.get(ctx.guild.roles, name="alumnus")
+                elif roleName.lower() in CONSTANTS.MUDDY:
+                    role = discord.utils.get(ctx.guild.roles, name="muddy-swamp")
+                elif roleName.lower() in CONSTANTS.WEBSITE:
+                    role = discord.utils.get(ctx.guild.roles, name="club-website")
+                elif roleName.lower() in CONSTANTS.MVW:
+                    role = discord.utils.get(ctx.guild.roles, name="marston-vs-west")
+                elif roleName.lower() in CONSTANTS.ALBOT:
+                    role = discord.utils.get(ctx.guild.roles, name="bot-dev")
+                await self.leave_role(ctx, role)
+            else:
+                roles = [role for role in ctx.author.roles if role.name != "@everyone"]
+                await self.leave_all_roles(ctx, roles)
+        except UnboundLocalError:
+            await ctx.send(f"{roleName} role doesn't exist")
+
+    async def leave_role(self, ctx, role):
+        """Remove given users role """
+        if role in ctx.author.roles:
+            await ctx.author.remove_roles(role)
+            await ctx.send(f"Removed role from {role.name}")
+
+    async def leave_all_roles(self, ctx, roles):
+        """Remove all given roles"""
+        for role in roles:
+            await self.leave_role(ctx, role)
 
     @commands.command()
     async def list(self, ctx):

@@ -23,3 +23,10 @@ WEEK = 604680  # 2 minutes less than a week for the reminders
 DAY = 86400
 HOUR = 3600
 MIN = 60
+
+#Similar words for open projects
+ALUMNUS = ["alumni", "alumnus", "alumna", "alum", "stultus", "stulta"]
+MUDDY = ["muddy", "muddy swamp", "muddyswamp", "muddy-swamp", "MUD"]
+WEBSITE = ["website", "club site", "club website", "clubwebsite", "clubsite"]
+MVW = ["mvw", "marstonvswest", "marston vs west", "marston v west"]
+ALBOT = ["bot", "albot"]
