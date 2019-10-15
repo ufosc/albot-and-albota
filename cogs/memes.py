@@ -62,17 +62,25 @@ class Memes(commands.Cog, name='Memes'):
         await channel.send('First')
 
     @commands.command()
+    @commands.has_role(config.OFFICER_ROLE)
     async def getkarma(self, ctx):
         """Makes the bot hungry for karma"""
-        await ctx.send("You are enabling daily karma grabbing from /r/programmerhumor")
-        self.going_for_gold = True
-        await self.dailykarma()
+        if self.going_for_gold is False:
+            await ctx.send("You are enabling daily karma grabbing from /r/programmerhumor")
+            self.going_for_gold = True
+            await self.dailykarma()
+        else:
+            await ctx.send("Already enabled.")
 
     @commands.command()
+    @commands.has_role(config.OFFICER_ROLE)
     async def forgetkarma(self, ctx):
         """What's Reddit?"""
-        await ctx.send("You are disabling daily karma grabbing from /r/programmerhumor")
-        self.going_for_gold = False
+        if self.going_for_gold is True:
+            await ctx.send("You are disabling daily karma grabbing from /r/programmerhumor")
+            self.going_for_gold = False
+        else:
+            await ctx.send("Already disabled.")
 
     async def dailykarma(self):
         """Steals the top Reddit post for the day from /r/ph"""
