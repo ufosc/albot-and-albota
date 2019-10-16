@@ -88,5 +88,19 @@
 				"type" : "BIGINT"
 			}
 		]
+	},
+	{
+		"table_name": "goodbot_badbot",
+		"schema": [
+			{
+				"column_name" : "vote",
+				"primary" : true,
+				"type" : "TEXT"
+			},
+			{
+				"column_name": "tally",
+				"type": "BIGINT"
+			}
+		]
 	}
 ]
