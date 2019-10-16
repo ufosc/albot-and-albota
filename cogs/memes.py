@@ -1,13 +1,17 @@
 import asyncio
-import discord
 import random
+
+import discord
 import praw
 from discord.ext import commands
 
+import config
 import cogs.CONSTANTS as CONST
+
 
 class Memes(commands.Cog, name='Memes'):
     """All meme related commands"""
+
     def __init__(self, bot):
         self.bot = bot
         self.going_for_gold = False
@@ -35,7 +39,7 @@ class Memes(commands.Cog, name='Memes'):
         await ctx.send(file=discord.File('alligator.jpg'))
 
     @commands.command()
-    @commands.has_role(CONST.OFFICER_ROLE)
+    @commands.has_role(config.OFFICER_ROLE)
     async def randplaying(self, ctx):
         """Randomly changes the playing text"""
         new_playing = random.choice(self.playing_strings)
@@ -43,13 +47,13 @@ class Memes(commands.Cog, name='Memes'):
         await ctx.send('I am now {}'.format(new_playing))
 
     @commands.command()
-    @commands.has_role(CONST.OFFICER_ROLE)
+    @commands.has_role(config.OFFICER_ROLE)
     async def setplaying(self, ctx, *, playing: str):
         """Lets an officer set the playing text"""
         await self.bot.change_presence(activity=discord.Game(name=playing))
 
     @commands.command()
-    async def say(self, ctx, *, phrase : str):
+    async def say(self, ctx, *, phrase: str):
         """Has the bot say something"""
         await ctx.send(phrase)
 
@@ -58,21 +62,29 @@ class Memes(commands.Cog, name='Memes'):
         await channel.send('First')
 
     @commands.command()
+    @commands.has_role(config.OFFICER_ROLE)
     async def getkarma(self, ctx):
         """Makes the bot hungry for karma"""
-        await ctx.send("You are enabling daily karma grabbing from /r/programmerhumor")
-        self.going_for_gold = True
-        await self.dailykarma()
+        if self.going_for_gold is False:
+            await ctx.send("You are enabling daily karma grabbing from /r/programmerhumor")
+            self.going_for_gold = True
+            await self.dailykarma()
+        else:
+            await ctx.send("Already enabled.")
 
     @commands.command()
+    @commands.has_role(config.OFFICER_ROLE)
     async def forgetkarma(self, ctx):
         """What's Reddit?"""
-        await ctx.send("You are disabling daily karma grabbing from /r/programmerhumor")
-        self.going_for_gold = False             
-        
+        if self.going_for_gold is True:
+            await ctx.send("You are disabling daily karma grabbing from /r/programmerhumor")
+            self.going_for_gold = False
+        else:
+            await ctx.send("Already disabled.")
+
     async def dailykarma(self):
         """Steals the top Reddit post for the day from /r/ph"""
-        channel = self.bot.get_channel(CONST.MEME_CHANNEL)
+        channel = self.bot.get_channel(config.MEME_CHANNEL)
         while self.going_for_gold:
             message = ""
             reddit = praw.Reddit('bot1')
@@ -125,6 +137,7 @@ class Memes(commands.Cog, name='Memes'):
         while self.drinking:
             self.hydration = 0
             await asyncio.sleep(CONST.DAY)
+
 
 def setup(bot):
     bot.add_cog(Memes(bot))

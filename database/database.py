@@ -1,23 +1,28 @@
-import sqlite3
 import json
+import sqlite3
+
+
+# flake8: noqa
+# TODO: remove noqa flag and fix flake8 error output...
 
 class DatabaseInitializeError(BaseException):
     """ Raised when the database can't be initialized properly """
     pass
 
+
 class SQLRollback(BaseException):
     """ Raise this exception to rollback an SQLCursor operation """
     pass
+
 
 class SQLCursor:
     """ Cursor object for sqlite3 database.
 
     Manages automatic creation/committing of data.
-    
     To use:
         connection = SQLConnection()
       
-      with SQLCursor(connection) as cursor:
+        with SQLCursor(connection) as cursor:
         do_things_with(cursor)
             if something_is_wrong:
           raise SQLRollback() # Raise this exception to jump out of the
@@ -26,15 +31,16 @@ class SQLCursor:
     do_other_things() # Cursor object is closed and committed before
                           this line, unless SQLRollback was raised
     """
+
     def __init__(self, connection):
         """ Initialize database connection """
         self.con = connection
-    
+
     def __enter__(self):
         """ Create and return cursor """
         self.cur = self.con.raw.cursor()
         return self.cur
-    
+
     def __exit__(self, xtype, xvalue, xtraceback):
         """ If SQLRollback was raised, rollback changes and exit 
         Otherwise, commit and exit.
@@ -46,8 +52,9 @@ class SQLCursor:
 
         self.cur.close()
 
-        return xtype == SQLRollback # If the exception was SQLRollback, suppress
-                                    # normal exception handling.
+        return xtype == SQLRollback  # If the exception was SQLRollback, suppress
+        # normal exception handling.
+
 
 class SQLConnection:
     def __init__(self):
@@ -78,17 +85,14 @@ class SQLConnection:
             else:
                 print('[database] FATAL: Table setup cannot continue. Aborting.')
                 raise DatabaseInitializeError('FATAL: Table setup aborted by user.')
-    
+
     def table_check(self, schema=None, table_prefix=None):
         """ Verify the table structure in the database
-        
         Parameters:
         schema = dict from schema.json, detailing the expected
                  table schema for the database.
-        
         table_prefix = if present, prepend this to table names as
                        specified in the schema.
-
         Returns:
           0 if everything is normal
           1 if the database is empty
@@ -99,7 +103,7 @@ class SQLConnection:
             schema = self.schema
         if not table_prefix:
             table_prefix = self.table_prefix
-            
+
         all_tables_present = True
         database_empty = True
         schema_ok = True
@@ -119,16 +123,16 @@ class SQLConnection:
                 with SQLCursor(self) as cur:
                     cur.execute("SELECT sql FROM sqlite_master WHERE type='table' AND name='{0}'".format(tname))
                     res_raw = cur.fetchall()
-                    res_preproc = res_raw[0][0][res_raw[0][0].find('(')+1:res_raw[0][0].find(')')].split(',')
+                    res_preproc = res_raw[0][0][res_raw[0][0].find('(') + 1:res_raw[0][0].find(')')].split(',')
                     res = []
                     for column in res_preproc:
                         column = column.strip()
-                        column_processed = [column[:column.find(' ')], column[column.find(' ')+1:].split(' ')[0]]
+                        column_processed = [column[:column.find(' ')], column[column.find(' ') + 1:].split(' ')[0]]
                         res.append(column_processed)
-                
+
                 if len(res) != len(table['schema']):
                     print('[database] SEVERE: missing column(s)')
-                    schema_ok = False # missing column(s)
+                    schema_ok = False  # missing column(s)
 
                 for column in res:
                     match = False
@@ -139,14 +143,14 @@ class SQLConnection:
                                 break
                             else:
                                 print('[database] SEVERE: type mismatch on column {0}'.format(column))
-                                schema_ok = False # Type mismatch
+                                schema_ok = False  # Type mismatch
 
                     if not match:
                         print('[database] SEVERE: unexpected column {0}'.format(column))
-                        schema_ok = False # Unexpected column
+                        schema_ok = False  # Unexpected column
 
             else:
-                all_tables_present = False # missing table
+                all_tables_present = False  # missing table
 
         if not schema_ok:
             return 3
@@ -157,16 +161,16 @@ class SQLConnection:
         else:
             return 0
 
-    def setup_tables(self, force=False):
+    def setup_tables(self, force=False):  # noqa: C901
         """ Sets up the proper tables in the sqlite3 database
-        
         Parameters:
           force = whether to delete all tables and re-initialize. This
                   option is DANGEROUS, and should not be used unless
                   necessary
+                  :param force:
         """
 
-        if force: # delete all present tables
+        if force:  # delete all present tables
             with SQLCursor(self) as cur:
                 cur.execute("SELECT name FROM sqlite_master WHERE type = 'table';")
                 table_list_unfixed = cur.fetchall()
@@ -189,17 +193,17 @@ class SQLConnection:
             for table in self.schema:
                 tname = self.table_prefix + table['table_name']
                 if tname in table_list:
-                    continue # ignore tables which already exist
+                    continue  # ignore tables which already exist
                 else:
                     cmd = 'CREATE TABLE ' + tname + ' ('
                     for index, column in enumerate(table['schema']):
                         if index != 0:
                             cmd = cmd + ', '
                         cmd = cmd + column['column_name'] + ' ' + column['type']
-                        if 'primary' in column: # columns with primary:true are PRIMARY KEY columns
+                        if 'primary' in column:  # columns with primary:true are PRIMARY KEY columns
                             if column['primary']:
                                 cmd = cmd + ' PRIMARY KEY'
-                    
+
                     cmd = cmd + ');'
                     print('[database] Creating table {0} with command `{1}`.'.format(tname, cmd))
-                    cur.execute(cmd) # create table
+                    cur.execute(cmd)  # create table
