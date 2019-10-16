@@ -212,7 +212,7 @@ class Government(commands.Cog, name='Government'):
         return values
 
 
-def initialize(self):
+def initialize():
     """Initializes the table with non-null 'position' columns."""
     sql_db = SQLConnection()
     with SQLCursor(sql_db) as cur:
