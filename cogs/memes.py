@@ -140,4 +140,7 @@ class Memes(commands.Cog, name='Memes'):
 
 
 def setup(bot):
-    bot.add_cog(Memes(bot))
+    try:
+        bot.add_cog(Memes(bot))
+    except Exception as e:
+        print(e)
