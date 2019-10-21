@@ -47,6 +47,18 @@ class Projects(commands.Cog, name='Projects'):
         await ctx.author.add_roles(role)
         await ctx.send("I, for one, welcome our robot overlords")
 
+    async def fault(self, ctx):
+        """Add the seg-fault role to the user"""
+        role = get(ctx.guild.roles, name="seg-fault")
+        await ctx.author.add_roles(role)
+        await ctx.send("Segmentation fault (core dumped)")
+
+    async def graphics(self, ctx):
+        """Add graphics-accelerator role to the user"""
+        role = get(ctx.guild.roles, name="graphics-accelerator")
+        await ctx.author.add_roles(role)
+        await ctx.send("Accelerating... Accelerating... Accelerating...")
+
     @commands.command()
     async def join(self, ctx, *, roleName: str):
         """Add a role to a user"""
@@ -59,6 +71,10 @@ class Projects(commands.Cog, name='Projects'):
         elif roleName.lower() in CONSTANTS.MVW:
             await self.mvw(ctx)
         elif roleName.lower() in CONSTANTS.ALBOT:
+            await self.albot(ctx)
+        elif roleName.lower() in CONSTANTS.FAULT:
+            await self.albot(ctx)
+        elif roleName.lower() in CONSTANTS.GRAPHICS:
             await self.albot(ctx)
 
     @commands.command()
@@ -76,6 +92,10 @@ class Projects(commands.Cog, name='Projects'):
                     role = discord.utils.get(ctx.guild.roles, name="marston-vs-west")
                 elif roleName.lower() in CONSTANTS.ALBOT:
                     role = discord.utils.get(ctx.guild.roles, name="bot-dev")
+                elif roleName.lower() in CONSTANTS.FAULT:
+                    role = discord.utils.get(ctx.guild.roles, name="seg-fault")
+                elif roleName.lower() in CONSTANTS.GRAPHICS:
+                    role = discord.utils.get(ctx.guild.roles, name="graphics-accelerator")
                 await self.leave_role(ctx, role)
             else:
                 roles = [role for role in ctx.author.roles if role.name != "@everyone"]
@@ -102,12 +122,6 @@ class Projects(commands.Cog, name='Projects'):
         embed.add_field(name="Join using", value="!join muddyswamp", inline=True)
         await ctx.send(embed=embed)
 
-        embed = discord.Embed(title="Marston Vs West", url="https://github.com/ufosc/marston-vs-west",
-                              description="A HTML5 smashbros-esque game fitting our libraries against each other.",
-                              color=0xff0036)
-        embed.add_field(name="Join using", value="!join mvw", inline=True)
-        await ctx.send(embed=embed)
-
         embed = discord.Embed(title="Club Website", url="https://github.com/ufosc/club-website",
                               description="Our club website made using basic HTML, CSS, and JS.", color=0x00ecff)
         embed.add_field(name="Join using", value="!join clubsite", inline=True)
@@ -116,6 +130,16 @@ class Projects(commands.Cog, name='Projects'):
         embed = discord.Embed(title="Bot", url="https://github.com/ufosc/albot-and-albota",
                               description="A python based discord bot", color=0x808080)
         embed.add_field(name="Join using", value="!join bot", inline=True)
+        await ctx.send(embed=embed)
+
+        embed = discord.Embed(title="Seg Fault", url="https://github.com/ufosc/seg-fault",
+                              description="A python based discord bot", color=0xff0036)
+        embed.add_field(name="Join using", value="!join fault", inline=True)
+        await ctx.send(embed=embed)
+
+        embed = discord.Embed(title="Graphics Accelerator", url="https://github.com/ufosc/SiLGA",
+                              description="Simple Lightweight Graphics Accelerator (SiLGA)", color=0x7F6000)
+        embed.add_field(name="Join using", value="!join graphics", inline=True)
         await ctx.send(embed=embed)
 
 
