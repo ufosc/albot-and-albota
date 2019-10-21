@@ -1,3 +1,4 @@
+import logging
 import discord
 from discord.ext import commands
 from github import Github
@@ -42,7 +43,12 @@ async def on_ready():
     await bot.change_presence(activity=discord.Game(name="Destroying propritary software"))
 
 
+def setup_logging():
+    logging.basicConfig(filename='albot.log', filemode='a', format='%(asctime)s - %(levelname)s - %(message)s')
+
+
 if __name__ == "__main__":
+    setup_logging()
     for extension in startup_cogs:
         try:
             bot.load_extension(extension)
