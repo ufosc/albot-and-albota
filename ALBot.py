@@ -17,6 +17,7 @@ startup_cogs = [
     "cogs.help",
     "cogs.reminder",
     "cogs.government",
+    "cogs.tally",
     "cogs.leaderboard"
 ]
 

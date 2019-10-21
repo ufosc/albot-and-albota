@@ -10,7 +10,7 @@ Please check the [Projects](https://github.com/ufosc/albot-and-albota/projects) 
 
 ## Report Bug
 
-Check the Issues page to see if someone already reported the big. If so just like or leave a comment on the issue. If not, please feel free to create a new issue. Make sure that you provide as much detail as possible, including: command, channel/server, which bot, any messages or error messages. Please add a bug label to the issue.
+Check the Issues page to see if someone already reported the bug. If so just like or leave a comment on the issue. If not, please feel free to create a new issue. Make sure that you provide as much detail as possible, including: command, channel/server, which bot, any messages or error messages. Please add a bug label to the issue.
 
 ## Request a Feature
 
