@@ -1,3 +1,4 @@
+import logging
 import math
 import traceback
 
@@ -54,6 +55,7 @@ class ALBotErrorHandlers(commands.Cog, name='Error Handler'):
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if type(error) == discord.ext.commands.MissingPermissions:
+            logging.warn(f'{ctx.author} denied permission for command {ctx.message.content}')
             await ctx.message.add_reaction(CONSTANTS.REACTION_DENY)
             embed = discord.Embed(title='{deny} Insufficient Permissions'.format(deny=CONSTANTS.REACTION_DENY),
                                   colour=discord.Colour(CONSTANTS.EMBED_COLOR_ERROR),
@@ -65,8 +67,10 @@ class ALBotErrorHandlers(commands.Cog, name='Error Handler'):
         else:
             embed = None
             if not ctx.command:
+                logging.warn(f'Unknown command {ctx.message.content} by {ctx.author}')
                 embed = self._construct_unknown_command_embed(str(error), ctx.message.content)
             else:
+                logging.warn(f'Error running the command {ctx.command.name} Error: {type(error)} | {error}')
                 embed = self._construct_error_embed(ctx.command.name, str(type(error)), str(error), ctx.message.content)
 
             await ctx.message.add_reaction(CONSTANTS.REACTION_ERROR)
