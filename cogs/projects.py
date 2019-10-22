@@ -35,12 +35,6 @@ class Projects(commands.Cog, name='Projects'):
         await ctx.author.add_roles(role)
         await ctx.send("HTML is my favorite programming language.")
 
-    async def mvw(self, ctx):
-        """Add the marston vs west role to the user"""
-        role = get(ctx.guild.roles, name="marston-vs-west")
-        await ctx.author.add_roles(role)
-        await ctx.send("Newell is the best 24/7 library. Don't @ me")
-
     async def albot(self, ctx):
         """Add the bot role to the user"""
         role = get(ctx.guild.roles, name="bot-dev")
@@ -68,14 +62,12 @@ class Projects(commands.Cog, name='Projects'):
             await self.muddy(ctx)
         elif roleName.lower() in CONSTANTS.WEBSITE:
             await self.website(ctx)
-        elif roleName.lower() in CONSTANTS.MVW:
-            await self.mvw(ctx)
         elif roleName.lower() in CONSTANTS.ALBOT:
             await self.albot(ctx)
         elif roleName.lower() in CONSTANTS.FAULT:
-            await self.albot(ctx)
+            await self.fault(ctx)
         elif roleName.lower() in CONSTANTS.GRAPHICS:
-            await self.albot(ctx)
+            await self.graphics(ctx)
 
     @commands.command()
     async def leave(self, ctx, *, roleName: str = None):
