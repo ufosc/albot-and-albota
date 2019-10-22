@@ -65,7 +65,7 @@ class Projects(commands.Cog, name='Projects'):
     async def leave(self, ctx, *, roleName: str = None):
         """Remove a given role from a user"""
         try:
-            if roleName != None:
+            if roleName is not None:
                 if roleName.lower() in CONSTANTS.ALUMNUS:
                     role = discord.utils.get(ctx.guild.roles, name="alumnus")
                 elif roleName.lower() in CONSTANTS.MUDDY:

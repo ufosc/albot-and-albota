@@ -1,14 +1,11 @@
-import asyncio
 import datetime
 
+from database.database import SQLConnection, SQLCursor
 from discord.ext import commands
 
 from github import Github
-from config import GITHUB_TOKEN, LEADERBOARD
+from config import GITHUB_TOKEN
 
-import discord
-from discord.ext import commands
-from database.database import SQLConnection, SQLCursor
 
 # TODO: Generate an embeded image for top contributors
 # TODO: Save info in the db
@@ -62,13 +59,13 @@ class Leaderboard(commands.Cog, name='Leaderboard'):
             i = 0
             for contributor in topContributors:
                 repo = active_projects[i]
-                message += "__**" + repo + "**__: *" + str(contributor[0]) + "* with " + str(contributor[1]) + " commits to dev!\n"
+                message += f"__**{repo}**__: *{contributor[0]}* with {contributor[1]} commits to dev!\n"
                 i += 1
 
             message += "\nThank you for your hard work!"
 
         await ctx.send(message)
-                
+
 
 def setup(bot):
     git = Github(GITHUB_TOKEN)

@@ -1,7 +1,6 @@
 import logging
 import discord
 from discord.ext import commands
-from github import Github
 
 import config
 

@@ -1,7 +1,6 @@
-import discord
 from discord.ext import commands
-
 from database.database import SQLCursor, SQLConnection
+
 
 class Tally(commands.Cog, name="Tally"):
     ''' All functionality related to the goodbot/badbot tally'''
@@ -30,10 +29,10 @@ class Tally(commands.Cog, name="Tally"):
         ''' Votes goodbot if good is true, badbot if good is false '''
         vote = "good" if good else "bad"
         with SQLCursor(self.db) as cur:
-            cur.execute("SELECT vote, tally FROM goodbot_badbot WHERE vote=?",(vote,))
+            cur.execute("SELECT vote, tally FROM goodbot_badbot WHERE vote=?", (vote,))
             row = cur.fetchone()
             new_tally = row[1] + 1
-            cur.execute("UPDATE goodbot_badbot SET tally=? WHERE vote=?",(new_tally,vote))
+            cur.execute("UPDATE goodbot_badbot SET tally=? WHERE vote=?", (new_tally, vote))
 
     @commands.command()
     async def tally(self, ctx):
@@ -41,9 +40,10 @@ class Tally(commands.Cog, name="Tally"):
         with SQLCursor(self.db) as cur:
             cur.execute("SELECT vote, tally FROM goodbot_badbot")
             row = cur.fetchone()
-            await ctx.send("{0}: {1}".format(str(row[0]),str(row[1])))
+            await ctx.send("{0}: {1}".format(str(row[0]), str(row[1])))
             row = cur.fetchone()
-            await ctx.send("{0}: {1}".format(str(row[0]),str(row[1])))
+            await ctx.send("{0}: {1}".format(str(row[0]), str(row[1])))
+
 
 def initialize():
     ''' Initializes the table with non-null 'vote' positions '''
@@ -55,9 +55,7 @@ def initialize():
             if row is None or len(row) != len(Tally.votes):
                 cur.execute("INSERT OR IGNORE INTO goodbot_badbot VALUES (?, ?)", (vote, 0))
 
+
 def setup(bot):
-    bot.add_cog(Tally(bot,SQLConnection()))
+    bot.add_cog(Tally(bot, SQLConnection()))
     initialize()
-
-
-        
