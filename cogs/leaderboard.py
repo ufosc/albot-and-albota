@@ -27,7 +27,7 @@ class Leaderboard(commands.Cog, name='Leaderboard'):
     @commands.command()
     async def leaderboard(self, ctx):
         """Get top contributors of the month"""
-        active_projects = ['club-website', 'muddyswamp', 'albot-and-albota', 'AskAGator']
+        active_projects = ['club-website', 'muddyswamp', 'albot-and-albota', 'AskAGator', 'seg-fault', 'SiLGA']
 
         org = self.git.get_organization('ufosc')
         repos = []
@@ -56,13 +56,16 @@ class Leaderboard(commands.Cog, name='Leaderboard'):
                         topContributor = contributor
                         contributions = count
 
-                topContributors.append((topContributor, contributions))
+                if contributions is 0:
+                    topContributors.append(("Nobody :(", 0))
+                else:
+                    topContributors.append((topContributor, contributions))
 
             message = "**Top Contributions This Month:**\n\n"
             i = 0
             for contributor in topContributors:
                 repo = active_projects[i]
-                message += "__**" + repo + "**__: *" + str(contributor[0]) + "* with " + str(contributor[1]) + " commits to dev!\n"
+                message += "__**" + repo + "**__: **" + str(contributor[0]) + "** with " + str(contributor[1]) + " commits to dev!\n"
                 i += 1
 
             message += "\nThank you for your hard work!"
