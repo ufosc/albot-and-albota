@@ -56,7 +56,7 @@ class Leaderboard(commands.Cog, name='Leaderboard'):
                         topContributor = contributor
                         contributions = count
 
-                if contributions is 0:
+                if contributions == 0:
                     topContributors.append(("Nobody :(", 0))
                 else:
                     topContributors.append((topContributor, contributions))
