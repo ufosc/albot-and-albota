@@ -6,3 +6,4 @@ database/data/sqlite3.db
 praw.ini
 
 .idea/
+venv/
