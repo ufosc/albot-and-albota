@@ -1,4 +1,4 @@
-discord.py[voice]==1.2.3
+discord.py[voice]==1.2.5
 youtube_dl==2019.7.2
 requests==2.22.0
 praw==6.3.1

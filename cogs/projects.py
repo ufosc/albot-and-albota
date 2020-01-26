@@ -22,6 +22,12 @@ class Projects(commands.Cog, name='Projects'):
         await ctx.send("Eway elcomway youway otay hetay alumni ounglay")
         await ctx.send(":thinking:")
 
+    async def bot(self, ctx):
+        """Add the bot-dev role to the user"""
+        role = discord.utils.get(ctx.guild.roles, name="bot-dev")
+        await ctx.author.add_roles(role)
+        await ctx.send("I, for one, welcome our robot overlords")
+
     async def muddy(self, ctx):
         """Add the muddy swamp role to the user"""
         role = discord.utils.get(ctx.guild.roles, name="muddy-swamp")
