@@ -7,3 +7,5 @@ praw.ini
 
 .idea/
 venv/
+
+/*.log
