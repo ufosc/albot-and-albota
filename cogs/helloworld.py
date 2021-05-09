@@ -6,7 +6,7 @@ from discord.ext import commands
 class HelloWorld(commands.Cog, name='Hello World'):
     """Discord.py Cog for printing the hello world code for different languages"""
 
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     @commands.command()
@@ -26,5 +26,5 @@ class HelloWorld(commands.Cog, name='Hello World'):
         await ctx.send(langs)
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     bot.add_cog(HelloWorld(bot))

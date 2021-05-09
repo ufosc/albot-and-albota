@@ -16,7 +16,7 @@ from config import GITHUB_TOKEN
 class Leaderboard(commands.Cog, name='Leaderboard'):
     """Handles GitHub leaderboard tracking for GitHub users."""
 
-    def __init__(self, bot, db, git):
+    def __init__(self, bot: commands.Bot, db, git):
         self.bot = bot
         self.db = db
         self.git = git
@@ -67,6 +67,6 @@ class Leaderboard(commands.Cog, name='Leaderboard'):
         await ctx.send(message)
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     git = Github(GITHUB_TOKEN)
     bot.add_cog(Leaderboard(bot, SQLConnection(), git))

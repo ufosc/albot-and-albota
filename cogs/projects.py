@@ -8,7 +8,7 @@ import cogs.CONSTANTS as CONSTANTS
 class Projects(commands.Cog, name='Projects'):
     """Commands dealing with the different projects we are working on"""
 
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     async def alumnus(self, ctx):
@@ -141,5 +141,5 @@ class Projects(commands.Cog, name='Projects'):
         await ctx.send(embed=embed)
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     bot.add_cog(Projects(bot))

@@ -12,7 +12,7 @@ import cogs.CONSTANTS as CONST
 class Memes(commands.Cog, name='Memes'):
     """All meme related commands"""
 
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.going_for_gold = False
         self.playing_strings = []
@@ -139,7 +139,7 @@ class Memes(commands.Cog, name='Memes'):
             await asyncio.sleep(CONST.DAY)
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     try:
         bot.add_cog(Memes(bot))
     except Exception as e:

@@ -9,7 +9,7 @@ from database.database import SQLCursor, SQLConnection
 class Government(commands.Cog, name='Government'):
     """Handles all of the UFOSC government related commands and querying."""
 
-    def __init__(self, bot, db):
+    def __init__(self, bot: commands.Bot, db):
         self.bot = bot
         self.db = db
 
@@ -223,6 +223,6 @@ def initialize():
                 cur.execute('INSERT OR IGNORE INTO govt_info (position) VALUES (?);', (pos,))
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     bot.add_cog(Government(bot, SQLConnection()))
     initialize()

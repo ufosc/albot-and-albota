@@ -7,7 +7,7 @@ class Tally(commands.Cog, name="Tally"):
 
     votes = ["good", "bad"]
 
-    def __init__(self, bot, db):
+    def __init__(self, bot: commands.Bot, db: SQLConnection):
         self.bot = bot
         self.db = db
         self.good = 0
@@ -56,6 +56,6 @@ def initialize():
                 cur.execute("INSERT OR IGNORE INTO goodbot_badbot VALUES (?, ?)", (vote, 0))
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     bot.add_cog(Tally(bot, SQLConnection()))
     initialize()

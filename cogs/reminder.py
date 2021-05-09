@@ -10,7 +10,7 @@ import cogs.CONSTANTS as CONST
 class Reminder(commands.Cog, name='Reminder'):
     """To remind officers and members about things"""
 
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.book_room_bg_task = self.bot.loop.create_task(self.book_room_reminder())
 
@@ -54,5 +54,5 @@ class Reminder(commands.Cog, name='Reminder'):
             await asyncio.sleep((destination_time - datetime.datetime.now()).seconds())
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     bot.add_cog(Reminder(bot))

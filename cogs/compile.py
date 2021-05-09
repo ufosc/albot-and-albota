@@ -7,7 +7,7 @@ from config import OFFICER_ROLE
 
 class Compile(commands.Cog, name='Compile'):
 
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.complangs = []
         self.is_debug = False
@@ -52,5 +52,5 @@ class Compile(commands.Cog, name='Compile'):
         await ctx.send("is_debugging = {}".format(self.is_debug))
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     bot.add_cog(Compile(bot))

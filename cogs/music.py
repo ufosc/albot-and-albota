@@ -77,7 +77,7 @@ class Music(commands.Cog, name='Music'):
     Works in multiple servers at once.
     """
 
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.voice_states = {}
 
@@ -262,7 +262,7 @@ class Music(commands.Cog, name='Music'):
             await ctx.send('Now playing {} [skips: {}/3]'.format(state.current, skip_count))
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     if not discord.opus.is_loaded():
         # the 'opus' library here is opus.dll on windows
         # or libopus.so on linux in the current directory

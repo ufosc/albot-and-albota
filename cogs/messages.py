@@ -11,7 +11,7 @@ from database.database import SQLCursor, SQLConnection
 class ALBotMessageDeletionHandlers(commands.Cog, name='Message Deletion Handlers'):
     """ Functions for handling tracked messages """
 
-    def __init__(self, bot, db):
+    def __init__(self, bot: commands.Bot, db):
         self.bot = bot
         self.db = db
 
@@ -151,7 +151,7 @@ class ALBotMessageClear(commands.Cog, name='Message Clear'):
             await ctx.channel.send(content='@{} Successfully deleted {} messages'.format(ctx.author, int(a_number)))
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     bot.add_cog(ALBotMessageDeletionHandlers(bot, SQLConnection()))
     bot.add_cog(ALBotFactorialHandler(bot))
     bot.add_cog(ALBotMessageClear(bot))

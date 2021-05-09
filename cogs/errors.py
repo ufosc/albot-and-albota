@@ -13,7 +13,7 @@ from database.database import SQLCursor, SQLConnection
 class ALBotErrorHandlers(commands.Cog, name='Error Handler'):
     """ Handles errors """
 
-    def __init__(self, bot, db):
+    def __init__(self, bot: commands.Bot, db):
         self.bot = bot
         self.db = db
 
@@ -129,5 +129,5 @@ class ALBotErrorHandlers(commands.Cog, name='Error Handler'):
                                embed=new_embed)
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     bot.add_cog(ALBotErrorHandlers(bot, SQLConnection()))

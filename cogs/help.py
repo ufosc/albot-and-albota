@@ -6,7 +6,7 @@ from config import OFFICER_CHANNEL
 class Help(commands.Cog, name='Help'):
     """Commands related to help needed"""
 
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     @commands.command()
@@ -23,5 +23,5 @@ class Help(commands.Cog, name='Help'):
             await channel.send("\"" + q + "\"")
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     bot.add_cog(Help(bot))

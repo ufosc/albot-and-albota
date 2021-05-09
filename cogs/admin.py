@@ -10,7 +10,7 @@ from config import OFFICER_ROLE
 
 class Admin(commands.Cog, name='Admin'):
 
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     @commands.command(hidden=True)
@@ -92,5 +92,5 @@ class Admin(commands.Cog, name='Admin'):
                 await ctx.send("```py\n{}{}\n```".format(value, ret))
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     bot.add_cog(Admin(bot))

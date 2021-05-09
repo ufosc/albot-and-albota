@@ -4,7 +4,7 @@ from discord.ext import commands
 class Welcome(commands.Cog, name="Welcome"):
     """To automatically welcome new members to the server"""
 
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     @commands.Cog.listener()
@@ -19,5 +19,5 @@ class Welcome(commands.Cog, name="Welcome"):
         await dm_channel.send(fmt.format(member))
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     bot.add_cog(Welcome(bot))
