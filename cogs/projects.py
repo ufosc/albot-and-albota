@@ -12,9 +12,9 @@ class Projects(commands.Cog, name='Projects'):
         self.bot = bot
 
     async def alumnus(self, ctx):
-        """"Add the Alumnus role to the user and remove other roles"""
+        """"Add the Alumnus role to the user"""
         if ctx.author.roles and (len(ctx.author.roles) > 1):
-            roles = [role for role in ctx.author.roles if role.name not in ["@everyone", "alumnus"]]
+            roles = [role for role in ctx.author.roles if role.name in CONSTANTS.PROJECT_ROLES]
             await self.leave_all_roles(ctx, roles)
 
         role = discord.utils.get(ctx.guild.roles, name="alumnus")
@@ -24,40 +24,28 @@ class Projects(commands.Cog, name='Projects'):
 
     async def bot(self, ctx):
         """Add the bot-dev role to the user"""
-        role = discord.utils.get(ctx.guild.roles, name="bot-dev")
+        role = discord.utils.get(ctx.guild.roles, name=CONSTANTS.BOT_ROLE)
         await ctx.author.add_roles(role)
         await ctx.send("I, for one, welcome our robot overlords")
 
     async def muddy(self, ctx):
         """Add the muddy swamp role to the user"""
-        role = discord.utils.get(ctx.guild.roles, name="muddy-swamp")
+        role = discord.utils.get(ctx.guild.roles, name=CONSTANTS.MUDDY_ROLE)
         await ctx.author.add_roles(role)
         await ctx.send("Get out of my swamp!")
         await ctx.send(file=discord.File('get-out-of-my-swamp.jpg'))
 
     async def website(self, ctx):
         """Add the website role to the user"""
-        role = get(ctx.guild.roles, name="club-website")
+        role = get(ctx.guild.roles, name=CONSTANTS.WEBSITE_ROLE)
         await ctx.author.add_roles(role)
         await ctx.send("HTML is my favorite programming language.")
 
     async def albot(self, ctx):
         """Add the bot role to the user"""
-        role = get(ctx.guild.roles, name="bot-dev")
+        role = get(ctx.guild.roles, name=CONSTANTS.BOT_ROLE)
         await ctx.author.add_roles(role)
         await ctx.send("I, for one, welcome our robot overlords")
-
-    async def fault(self, ctx):
-        """Add the seg-fault role to the user"""
-        role = get(ctx.guild.roles, name="seg-fault")
-        await ctx.author.add_roles(role)
-        await ctx.send("Segmentation fault (core dumped)")
-
-    async def graphics(self, ctx):
-        """Add graphics-accelerator role to the user"""
-        role = get(ctx.guild.roles, name="graphics-accelerator")
-        await ctx.author.add_roles(role)
-        await ctx.send("Accelerating... Accelerating... Accelerating...")
 
     @commands.command()
     async def join(self, ctx, *, roleName: str):
@@ -81,19 +69,15 @@ class Projects(commands.Cog, name='Projects'):
         try:
             if roleName is not None:
                 if roleName.lower() in CONSTANTS.ALUMNUS:
-                    role = discord.utils.get(ctx.guild.roles, name="alumnus")
+                    role = discord.utils.get(ctx.guild.roles, name=CONSTANTS.ALMUNI_ROLE)
                 elif roleName.lower() in CONSTANTS.MUDDY:
-                    role = discord.utils.get(ctx.guild.roles, name="muddy-swamp")
+                    role = discord.utils.get(ctx.guild.roles, name=CONSTANTS.MUDDY_ROLE)
                 elif roleName.lower() in CONSTANTS.WEBSITE:
-                    role = discord.utils.get(ctx.guild.roles, name="club-website")
+                    role = discord.utils.get(ctx.guild.roles, name=CONSTANTS.WEBSITE_ROLE)
                 elif roleName.lower() in CONSTANTS.MVW:
-                    role = discord.utils.get(ctx.guild.roles, name="marston-vs-west")
+                    role = discord.utils.get(ctx.guild.roles, name=CONSTANTS.MVW_ROLE)
                 elif roleName.lower() in CONSTANTS.ALBOT:
-                    role = discord.utils.get(ctx.guild.roles, name="bot-dev")
-                elif roleName.lower() in CONSTANTS.FAULT:
-                    role = discord.utils.get(ctx.guild.roles, name="seg-fault")
-                elif roleName.lower() in CONSTANTS.GRAPHICS:
-                    role = discord.utils.get(ctx.guild.roles, name="graphics-accelerator")
+                    role = discord.utils.get(ctx.guild.roles, name=CONSTANTS.BOT_ROLE)
                 await self.leave_role(ctx, role)
             else:
                 roles = [role for role in ctx.author.roles if role.name != "@everyone"]
@@ -134,12 +118,6 @@ class Projects(commands.Cog, name='Projects'):
                               description="A python based discord bot", color=0xff0036)
         embed.add_field(name="Join using", value="!join fault", inline=True)
         await ctx.send(embed=embed)
-
-        embed = discord.Embed(title="Graphics Accelerator", url="https://github.com/ufosc/SiLGA",
-                              description="Simple Lightweight Graphics Accelerator (SiLGA)", color=0x7F6000)
-        embed.add_field(name="Join using", value="!join graphics", inline=True)
-        await ctx.send(embed=embed)
-
 
 def setup(bot: commands.Bot):
     bot.add_cog(Projects(bot))

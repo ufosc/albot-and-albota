@@ -26,9 +26,14 @@ MIN = 60
 
 # Similar words for open projects
 ALUMNUS = ["alumni", "alumnus", "alumna", "alum", "stultus", "stulta"]
+ALMUNI_ROLE = "alumnus"
 MUDDY = ["muddy", "muddy swamp", "muddyswamp", "muddy-swamp", "MUD"]
+MUDDY_ROLE = "muddy-swamp"
 WEBSITE = ["website", "club site", "club website", "clubwebsite", "clubsite"]
+WEBSITE_ROLE = "club-website"
 MVW = ["mvw", "marstonvswest", "marston vs west", "marston v west"]
+MVW_ROLE = "marston-vs-west"
 ALBOT = ["bot", "albot"]
-FAULT = ["fault", "seg-fault", "segfault", "seg fault", "seg", "sf", "s-f"]
-GRAPHICS = ["graphics", "graphics accelerator", "graphics-accelerator", "g-a", "accelerator", "silga"]
+BOT_ROLE = "bot-dev"
+
+PROJECT_ROLES = [MUDDY_ROLE, WEBSITE_ROLE, MVW_ROLE, BOT_ROLE]
